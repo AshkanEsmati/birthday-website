@@ -1,0 +1,2964 @@
+<!DOCTYPE html>
+<!-- آسمون کوچیکِ ما ✨ | مخصوص پریا -->
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>آسمون کوچیکِ ما ✨ | مخصوص پریا</title>
+
+  <!-- فونت فارسی وزیرمتن برای خوانایی عالی در موبایل و دسکتاپ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Vazirmatn', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            skyDeep: '#0b0d21',
+            skyMid: '#1c1638',
+            skyPlum: '#2b1d42',
+            paperCream: '#fffaf0',
+            paperWarm: '#fdf3e1',
+            inkDark: '#2d2235',
+            roseGlow: '#f49cbb',
+            starGold: '#ebd084',
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* تنظیمات پایه و اسکرول نرم بدون قفل شدن صفحه */
+    html {
+      scroll-behavior: smooth;
+      font-family: 'Vazirmatn', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #0b0d21 0%, #1c1638 48%, #2b1d42 100%);
+      background-attachment: fixed;
+      color: #f8f5fc;
+      overflow-x: hidden;
+      min-height: 100vh;
+      margin: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* بوم ستاره‌های پس‌زمینه و کاغذرنگی */
+    #starfield, #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    #starfield { z-index: 0; }
+    #confettiCanvas { z-index: 60; }
+
+    /* کادر شیشه‌ای تیره هماهنگ با تم آسمان شب */
+    .glass-card {
+      background: rgba(26, 20, 52, 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(235, 208, 132, 0.2);
+      box-shadow: 0 16px 40px rgba(5, 6, 18, 0.45);
+    }
+
+    /* بافت کاغذ نامه‌های عاشقانه و پولاروید */
+    .paper-sheet {
+      background-color: #fffaf0;
+      background-image: radial-gradient(rgba(218, 188, 138, 0.12) 1px, transparent 0);
+      background-size: 18px 18px;
+      color: #2d2235;
+      box-shadow: 0 18px 45px rgba(8, 6, 20, 0.45), inset 0 0 0 1px rgba(215, 180, 120, 0.35);
+    }
+
+    /* کاغذ خط‌دار با تراز دقیق خطوط در موبایل و دسکتاپ */
+    .lined-paper {
+      background-color: transparent;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 28px,
+        rgba(212, 178, 135, 0.34) 28px,
+        rgba(212, 178, 135, 0.34) 29px,
+        transparent 29px,
+        transparent 34px
+      );
+      background-position: 0 4px;
+      color: #2d2235;
+    }
+    .lined-paper-body {
+      line-height: 34px !important;
+    }
+    .lined-paper-body p {
+      line-height: 34px !important;
+      margin: 0;
+    }
+
+    /* انیمیشن شناور ملایم پاکت شروع */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(-0.8deg); }
+      50% { transform: translateY(-10px) rotate(0.8deg); }
+    }
+    .animate-float {
+      animation: floatSlow 4.5s ease-in-out infinite;
+    }
+
+    /* انیمیشن پاکت نامه اول و بیرون آمدن کامل کارت سه خطی */
+    .envelope-wrapper {
+      perspective: 1000px;
+    }
+    .envelope-flap {
+      transform-origin: top center;
+      transition: transform 0.78s cubic-bezier(0.4, 0, 0.2, 1), z-index 0s 0.32s;
+    }
+    .envelope-open .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 5;
+    }
+    .envelope-letter-preview {
+      transition: transform 0.95s cubic-bezier(0.34, 1.45, 0.64, 1) 0.26s, box-shadow 0.5s ease 0.26s;
+    }
+    .envelope-open .envelope-letter-preview {
+      transform: translateY(-76px) scale(1.03);
+      box-shadow: 0 18px 36px rgba(10, 8, 26, 0.35);
+    }
+    .envelope-open .wax-seal {
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.32s ease;
+    }
+    .envelope-open .envelope-bottom-pill {
+      opacity: 0;
+      transition: opacity 0.28s ease;
+    }
+
+    /* نشانگر تایپ تک‌خطی تمیز */
+    @keyframes blinkCursor {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    .type-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.15em;
+      background-color: #f49cbb;
+      vertical-align: middle;
+      margin-right: 3px;
+      animation: blinkCursor 0.85s infinite;
+    }
+
+    /* کارت‌های چرخشی سه‌بعدی سازگار با iOS Safari بدون پرش */
+    .flip-card {
+      perspective: 1000px;
+      -webkit-perspective: 1000px;
+      min-height: 192px;
+    }
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 192px;
+      transition: transform 0.65s cubic-bezier(0.34, 1.4, 0.64, 1);
+      -webkit-transform-style: preserve-3d;
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-front, .flip-back {
+      position: absolute;
+      inset: 0;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0.9rem;
+      text-align: center;
+    }
+    .flip-front {
+      background: linear-gradient(155deg, #211944 0%, #151030 100%);
+      box-shadow: 0 12px 30px rgba(5, 6, 18, 0.45);
+      transform: rotateY(0deg) translateZ(1px);
+    }
+    .flip-back {
+      transform: rotateY(180deg) translateZ(1px);
+    }
+
+    /* شعله شمع کیک تولد، هاله نورانی، اخگر فتیله و دود خاموش شدن */
+    @keyframes flicker {
+      0%, 100% { transform: scale(1) rotate(-2deg); opacity: 0.96; }
+      25% { transform: scale(1.07, 0.95) rotate(2.5deg); opacity: 1; }
+      50% { transform: scale(0.94, 1.09) rotate(-1.5deg); opacity: 0.9; }
+      75% { transform: scale(1.05, 1.02) rotate(3deg); opacity: 1; }
+    }
+    @keyframes haloPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.72; }
+      50% { transform: translate(-50%, -50%) scale(1.22); opacity: 1; }
+    }
+    .candle-flame-wrap {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      transform-origin: bottom center;
+      transition: opacity 0.25s ease-out, transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .candle-halo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 34px;
+      height: 34px;
+      border-radius: 9999px;
+      background: radial-gradient(circle, rgba(255, 195, 50, 0.65) 0%, rgba(251, 133, 0, 0.22) 55%, transparent 75%);
+      animation: haloPulse 1.5s infinite ease-in-out;
+      pointer-events: none;
+    }
+    .candle-flame {
+      transform-origin: bottom center;
+      animation: flicker 1.15s infinite ease-in-out;
+      filter: drop-shadow(0 0 8px #ffb703) drop-shadow(0 0 16px #fb8500);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    /* خاموش شدن قطعی شعله و حذف کامل انیمیشن flicker */
+    .candle-out .candle-flame-wrap {
+      opacity: 0 !important;
+      transform: translateY(-8px) scale(0) !important;
+      pointer-events: none;
+    }
+    .candle-out .candle-flame {
+      animation: none !important;
+      opacity: 0 !important;
+      transform: scale(0) !important;
+      filter: none !important;
+      pointer-events: none;
+    }
+    .candle-out .candle-halo {
+      animation: none !important;
+      opacity: 0 !important;
+      transform: translate(-50%, -50%) scale(0) !important;
+    }
+
+    /* اخگر سرخ سر فتیله که طی ۱.۲ ثانیه محو می‌شود */
+    @keyframes emberFade {
+      0% { opacity: 1; background-color: #ff7b00; box-shadow: 0 0 8px #ff4800; }
+      45% { opacity: 0.85; background-color: #ef4444; box-shadow: 0 0 5px #dc2626; }
+      100% { opacity: 0; background-color: #44403c; box-shadow: none; }
+    }
+    .wick-ember {
+      opacity: 0;
+    }
+    .candle-out .wick-ember {
+      animation: emberFade 1.2s ease-out forwards;
+    }
+
+    /* دو رشته دود ظریف پس از خاموش شدن هر شمع */
+    @keyframes smokeRiseLeft {
+      0% { opacity: 0; transform: translate(0, 4px) scale(0.4); }
+      22% { opacity: 0.82; }
+      100% { opacity: 0; transform: translate(-10px, -36px) scale(2.1); }
+    }
+    @keyframes smokeRiseRight {
+      0% { opacity: 0; transform: translate(0, 4px) scale(0.4); }
+      26% { opacity: 0.68; }
+      100% { opacity: 0; transform: translate(9px, -44px) scale(2.35); }
+    }
+    .smoke-wisp-1, .smoke-wisp-2 {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .candle-out .smoke-wisp-1 {
+      animation: smokeRiseLeft 1.3s ease-out forwards;
+    }
+    .candle-out .smoke-wisp-2 {
+      animation: smokeRiseRight 1.5s ease-out 0.08s forwards;
+    }
+
+    /* کمی تیره‌تر شدن بدنه شمع خاموش‌شده برای تشخیص واضح */
+    .candle-stick {
+      transition: filter 0.35s ease, opacity 0.35s ease, transform 0.25s ease;
+    }
+    .candle-out .candle-stick {
+      filter: brightness(0.72) saturate(0.78);
+      opacity: 0.84;
+    }
+
+    /* ستاره‌های مخفی (Easter Eggs) */
+    @keyframes starPulse {
+      0%, 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 6px #ebd084); }
+      50% { transform: scale(1.22) rotate(12deg); filter: drop-shadow(0 0 16px #f49cbb); }
+    }
+    .secret-star-btn {
+      animation: starPulse 2.8s infinite ease-in-out;
+    }
+    .secret-star-found {
+      opacity: 0.55;
+      animation: none;
+      filter: drop-shadow(0 0 4px #ebd084);
+    }
+
+    /* لرزش هنگام وارد کردن رمز اشتباه */
+    @keyframes shakeError {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-9px); }
+      40% { transform: translateX(9px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+    .animate-shake {
+      animation: shakeError 0.45s ease;
+    }
+
+    /* مخفی‌سازی اسکرول‌بار افقی منوی موبایل */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* اکولایزر موسیقی و ویس */
+    @keyframes waveBar {
+      0%, 100% { transform: scaleY(0.35); }
+      50% { transform: scaleY(1); }
+    }
+    .wave-active span {
+      animation: waveBar 0.9s ease-in-out infinite;
+    }
+
+    #voiceWaveform {
+      touch-action: pan-y;
+    }
+
+    /* نوار پیشرفت ظریف و لمسی پخش‌کننده ویس */
+    #voiceSeekSlider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 20px;
+      background: transparent;
+      cursor: pointer;
+      margin: 0;
+      padding: 0;
+      touch-action: pan-y;
+      --voice-progress: 0%;
+    }
+    #voiceSeekSlider:focus {
+      outline: none;
+    }
+    #voiceSeekSlider::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 4.5px;
+      border-radius: 9999px;
+      background: linear-gradient(
+        to right,
+        #d96b90 0%,
+        #b5446b var(--voice-progress, 0%),
+        rgba(181, 68, 107, 0.2) var(--voice-progress, 0%),
+        rgba(181, 68, 107, 0.2) 100%
+      );
+    }
+    #voiceSeekSlider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 13.5px;
+      height: 13.5px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #df7599 0%, #b5446b 100%);
+      border: 2px solid #fffaf0;
+      box-shadow: 0 2px 6px rgba(181, 68, 107, 0.42);
+      margin-top: -4.5px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    #voiceSeekSlider:hover::-webkit-slider-thumb,
+    #voiceSeekSlider:active::-webkit-slider-thumb {
+      transform: scale(1.15);
+      box-shadow: 0 2px 9px rgba(181, 68, 107, 0.58);
+    }
+    #voiceSeekSlider:focus-visible::-webkit-slider-thumb {
+      box-shadow: 0 0 0 3px rgba(217, 107, 144, 0.35), 0 2px 6px rgba(181, 68, 107, 0.45);
+    }
+    #voiceSeekSlider::-moz-range-track {
+      width: 100%;
+      height: 4.5px;
+      border-radius: 9999px;
+      background: linear-gradient(
+        to right,
+        #d96b90 0%,
+        #b5446b var(--voice-progress, 0%),
+        rgba(181, 68, 107, 0.2) var(--voice-progress, 0%),
+        rgba(181, 68, 107, 0.2) 100%
+      );
+    }
+    #voiceSeekSlider::-moz-range-thumb {
+      width: 13.5px;
+      height: 13.5px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #df7599 0%, #b5446b 100%);
+      border: 2px solid #fffaf0;
+      box-shadow: 0 2px 6px rgba(181, 68, 107, 0.42);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    #voiceSeekSlider:hover::-moz-range-thumb,
+    #voiceSeekSlider:active::-moz-range-thumb {
+      transform: scale(1.15);
+    }
+    #voiceSeekSlider:focus-visible::-moz-range-thumb {
+      box-shadow: 0 0 0 3px rgba(217, 107, 144, 0.35), 0 2px 6px rgba(181, 68, 107, 0.45);
+    }
+
+    /* بخش انتخاب عروسک هدیه (طراحی لطیف پاستلی و فانتزی) */
+    .plushie-showcase {
+      background: linear-gradient(
+        145deg,
+        #f8eef2 0%,
+        #f4e5eb 52%,
+        #f5ecdf 100%
+      );
+      border: 2px solid rgba(244, 156, 187, 0.55);
+      box-shadow: 0 18px 45px rgba(8, 6, 20, 0.42);
+      color: #2d2235;
+    }
+    .plushie-card {
+      background-color: #ffffff;
+      border: 2px solid #f3dce6;
+      box-shadow: 0 6px 18px rgba(180, 105, 140, 0.08);
+      transition: transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1), border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    }
+    .plushie-card:hover {
+      border-color: #f4abc4;
+      transform: translateY(-2px);
+    }
+    .plushie-card.plushie-selected {
+      background-color: #fffafc;
+      border-color: #ec6b9e;
+      box-shadow: 0 12px 26px rgba(236, 107, 158, 0.24), 0 0 0 3px rgba(248, 187, 208, 0.65);
+      transform: translateY(-4px) scale(1.015);
+    }
+    .plushie-check-badge {
+      opacity: 0;
+      transform: scale(0.6);
+      transition: opacity 0.22s ease, transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .plushie-card.plushie-selected .plushie-check-badge {
+      opacity: 1;
+      transform: scale(1);
+    }
+    @keyframes plushieReveal {
+      0% { opacity: 0; transform: translateY(10px) scale(0.98); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .plushie-fade-in {
+      animation: plushieReveal 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+  </style>
+</head>
+<body class="selection:bg-roseGlow/30 selection:text-white">
+
+  <!-- لایه ستاره‌های چشمک‌زن آسمان شب -->
+  <canvas id="starfield"></canvas>
+  <!-- لایه کاغذرنگی جشن تولد -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- اعلان شناور (Toast) برای پیام‌ها، کپی و ستاره‌های مخفی (بدون استفاده از alert) -->
+  <div id="toastBox" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-4 transition-all duration-300 w-[90%] max-w-sm">
+    <div class="glass-card border-starGold/50 rounded-2xl px-4 py-3 text-center shadow-2xl flex items-center justify-center gap-2 text-sm font-medium text-paperCream">
+      <span id="toastIcon" class="text-lg">✨</span>
+      <span id="toastText">پیام</span>
+    </div>
+  </div>
+
+  <!-- نوار شناور بالایی (بعد از باز شدن پاکت اول ظاهر می‌شود) -->
+  <header id="topNav" class="fixed top-3 inset-x-0 z-40 px-3 opacity-0 -translate-y-6 pointer-events-none transition-all duration-500">
+    <div class="max-w-3xl mx-auto glass-card rounded-full px-3 py-2 flex items-center justify-between gap-2 shadow-xl">
+      <!-- دکمه کنترل موسیقی جعبه موزیکال -->
+      <button id="musicToggleBtn" type="button" onclick="toggleBackgroundMusic()" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 active:scale-95 transition rounded-full px-3 py-1.5 text-xs font-medium text-starGold shrink-0" aria-label="پخش یا توقف موسیقی">
+        <span id="musicStatusIcon">🎵</span>
+        <span id="musicStatusText" class="hidden sm:inline">ملودی</span>
+        <span id="musicEq" class="flex items-end gap-0.5 h-3">
+          <span class="w-0.5 h-full bg-starGold rounded-full origin-bottom" style="animation-delay:0s"></span>
+          <span class="w-0.5 h-full bg-roseGlow rounded-full origin-bottom" style="animation-delay:0.2s"></span>
+          <span class="w-0.5 h-full bg-starGold rounded-full origin-bottom" style="animation-delay:0.4s"></span>
+        </span>
+      </button>
+
+      <!-- لینک‌های دسترسی سریع به بخش‌ها -->
+      <nav class="flex items-center gap-1 overflow-x-auto no-scrollbar text-xs text-purple-100/90 py-0.5">
+        <a href="#memoriesSection" class="px-2.5 py-1 rounded-full hover:bg-white/10 whitespace-nowrap transition">خاطرات</a>
+        <a href="#traitsSection" class="px-2.5 py-1 rounded-full hover:bg-white/10 whitespace-nowrap transition">دوست‌داشتنی‌ها</a>
+        <a href="#openWhenSection" class="px-2.5 py-1 rounded-full hover:bg-white/10 whitespace-nowrap transition">پاکت‌ها</a>
+        <a href="#cakeSection" class="px-2.5 py-1 rounded-full hover:bg-white/10 whitespace-nowrap transition">جشن تولد 🎂</a>
+        <a href="#plushieSection" class="px-2.5 py-1 rounded-full hover:bg-white/10 whitespace-nowrap transition">سورپرایز 🧸</a>
+        <a href="#secretEnvelopeSection" class="px-2.5 py-1 rounded-full hover:bg-white/10 text-starGold font-semibold whitespace-nowrap transition">پاکت آخر 🔐</a>
+      </nav>
+
+      <!-- نشانگر ستاره‌های مخفی کشف‌شده -->
+      <button type="button" onclick="showSecretStarsHint()" class="flex items-center gap-1 bg-starGold/15 border border-starGold/40 hover:bg-starGold/25 active:scale-95 transition rounded-full px-2.5 py-1 text-xs font-semibold text-starGold shrink-0" title="ستاره‌های مخفی آسمان">
+        <span>🌟</span>
+        <span id="secretCounterBadge">۰/۲</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- بخش ۱: صحنه ورود و پاکت مهروموم‌شده پریا -->
+  <!-- ========================================== -->
+  <section id="introGate" class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-12 transition-all duration-500">
+    <div class="text-center mb-16 sm:mb-20 max-w-md mx-auto">
+      <p class="text-starGold/90 text-xs sm:text-sm tracking-wide mb-2 font-medium">✨ آسمون کوچیکِ ما ✨</p>
+      <h1 class="text-2xl sm:text-3xl font-bold text-white leading-relaxed">
+        پریا جونم، یه گوشه از آسمون کوچیکمون رو با عشق برای تو آماده کردم...
+      </h1>
+      <p class="text-purple-200/80 text-sm mt-2">
+        این پاکت رو باز کن؛ یه دنیای کوچیک از خاطره‌ها و حرف‌های من منتظرته 💌
+      </p>
+    </div>
+
+    <!-- پاکت سه‌بعدی تعاملی -->
+    <div id="introEnvelope" onclick="openIntroEnvelope()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openIntroEnvelope()" class="envelope-wrapper cursor-pointer group animate-float select-none w-full max-w-[330px] sm:max-w-[360px]">
+      <div class="relative bg-[#f5ead4] rounded-2xl h-56 sm:h-60 shadow-[0_25px_60px_rgba(0,0,0,0.65)] border border-[#e3cca1] flex items-center justify-center overflow-visible">
+
+        <!-- برگه‌ای که موقع باز شدن پاکت کاملاً بالا می‌آید و هر ۳ خط آن خوانا دیده می‌شود -->
+        <div id="envelopeLetterPreview" class="envelope-letter-preview absolute inset-x-5 top-5 bottom-7 bg-paperCream rounded-xl shadow-md p-4 flex flex-col items-center justify-center text-center border border-amber-200/70 z-10">
+          <span class="text-xs text-rose-500 font-semibold mb-1">یه نامه از تهِ دلم، برای روز تو</span>
+          <p class="text-inkDark font-bold text-base">برای پریایِ عزیزم ❤️</p>
+          <p class="text-inkDark/70 text-xs mt-1">از طرف: اشکان</p>
+        </div>
+
+        <!-- بدنه جلویی پاکت -->
+        <div class="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-2xl">
+          <svg viewBox="0 0 360 240" class="w-full h-full preserve-3d" preserveAspectRatio="none">
+            <polygon points="0,240 180,118 360,240" fill="#efe0c2" />
+            <polygon points="0,0 180,130 0,240" fill="#f7edd9" />
+            <polygon points="360,0 180,130 360,240" fill="#ebdab8" />
+          </svg>
+        </div>
+
+        <!-- درِ بالایی پاکت -->
+        <div class="envelope-flap absolute top-0 inset-x-0 h-36 z-30 pointer-events-none">
+          <svg viewBox="0 0 360 140" class="w-full h-full drop-shadow-md" preserveAspectRatio="none">
+            <polygon points="0,0 360,0 180,135" fill="#e6cfa3" stroke="#d5b882" stroke-width="1.5" />
+          </svg>
+        </div>
+
+        <!-- مهر مومی طلایی-صورتی روی پاکت -->
+        <div class="wax-seal absolute z-40 top-[106px] sm:top-[112px] w-16 h-16 rounded-full bg-gradient-to-br from-[#e06388] to-[#a83258] shadow-[0_6px_18px_rgba(168,50,88,0.65)] border-2 border-[#f8bbd0]/60 flex flex-col items-center justify-center text-white group-hover:scale-110 transition duration-300">
+          <span class="text-lg leading-none">❤️</span>
+          <span class="text-[10px] font-bold mt-0.5">برای پریا</span>
+        </div>
+
+        <!-- برچسب پایین پاکت -->
+        <div class="envelope-bottom-pill absolute bottom-3 inset-x-0 z-30 text-center">
+          <span class="inline-block text-[11px] font-medium text-[#6e563a] bg-[#fffaf0]/80 px-3 py-0.5 rounded-full">
+            مهرش رو باز کن؛ یه سورپرایز منتظرته 🤍
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- مسیر کامل سایت (پس از باز شدن پاکت اول نمایش داده می‌شود) -->
+  <!-- ========================================== -->
+  <main id="mainJourney" class="hidden relative z-10 pb-24 pt-20 px-4 sm:px-6 max-w-4xl mx-auto space-y-20 sm:space-y-28">
+
+    <!-- ۱.۵ کارت خوشامدگویی اشکان + ویس تعاملی -->
+    <section id="welcomeSection" class="pt-2">
+      <div class="paper-sheet rounded-3xl p-6 sm:p-9 relative overflow-hidden">
+        <!-- تزیین گوشه کاغذ -->
+        <div class="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-roseGlow/25 to-transparent rounded-br-full pointer-events-none"></div>
+
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-4 border-b border-amber-900/10 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-9 h-9 rounded-full bg-roseGlow/20 text-rose-700 flex items-center justify-center text-lg">💌</span>
+            <div>
+              <h2 class="font-bold text-inkDark text-lg sm:text-xl">سلام قشنگ‌ترین اتفاق زندگیم...</h2>
+              <p class="text-xs text-inkDark/60">چند خط از دلِ من، برای تو ❤️</p>
+            </div>
+          </div>
+          <button type="button" onclick="replayWelcomeTypewriter()" class="text-xs text-rose-700 hover:text-rose-900 bg-rose-100/70 px-3 py-1.5 rounded-full font-medium transition">
+            تایپ مجدد ↻
+          </button>
+        </div>
+
+        <!-- متن تایپ‌شونده با حفظ خطوط جدید و تنها یک نشانگر تمیز -->
+        <div class="min-h-[112px] text-inkDark text-sm sm:text-base leading-8 font-medium">
+          <span id="welcomeTypedText" class="whitespace-pre-line"></span><span id="welcomeCursor" class="type-cursor"></span>
+        </div>
+
+        <!-- پخش‌کننده ویس خوشامدگویی اشکان -->
+        <div class="mt-6 bg-[#f5ebd8] border border-[#e3cfa9] rounded-2xl p-3.5 sm:p-4 flex items-center gap-3.5">
+          <button id="voiceNoteBtn" type="button" onclick="toggleVoiceWelcome()" class="w-12 h-12 rounded-full bg-gradient-to-br from-[#d96b90] to-[#b5446b] text-white flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition shrink-0" aria-label="پخش صدای اشکان">
+            <span id="voiceBtnIcon" class="text-lg mr-[-2px]">▶</span>
+          </button>
+
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between text-xs text-inkDark/80 font-semibold mb-1.5">
+              <span>🎙️ ویس خوشامدگویی برای پریای من</span>
+              <span id="voiceTimer" dir="ltr" class="tabular-nums text-inkDark/60">۰۰:۰۰ / ۰۳:۱۳</span>
+            </div>
+            <!-- نوار موج صوتی -->
+            <div id="voiceWaveform" dir="ltr" class="h-6 flex items-center gap-1 overflow-hidden cursor-pointer select-none">
+              <!-- با جاوااسکریپت ساخته می‌شود -->
+            </div>
+            <!-- نوار پیشرفت ظریف برای عقب و جلو بردن ویس -->
+            <div class="mt-1 flex items-center" dir="ltr">
+              <input
+                id="voiceSeekSlider"
+                type="range"
+                dir="ltr"
+                min="0"
+                max="193"
+                step="0.1"
+                value="0"
+                aria-label="نوار جابه‌جایی زمان پخش ویس خوشامدگویی"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- راهنمای اسکرول به پایین -->
+      <div class="text-center mt-7">
+        <a href="#counterSection" class="inline-flex flex-col items-center text-xs text-purple-200/75 hover:text-starGold transition">
+          <span>بیا پایین‌تر، تازه اولِ راهه...</span>
+          <span class="text-lg mt-1 animate-bounce">↓</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- بخش ۲: شمارنده روزهای با هم بودن + ستاره مخفی اول -->
+    <!-- ========================================== -->
+    <section id="counterSection" class="relative">
+      <!-- ستاره مخفی شماره ۱ (Easter Egg 1) -->
+      <button id="secretStar1" type="button" onclick="discoverSecretStar(1)" class="secret-star-btn absolute -top-9 left-3 sm:left-6 z-20 p-2 rounded-full focus:outline-none" title="یه ستاره خاص اینجاست...">
+        <svg class="w-7 h-7 text-starGold" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 1.5l2.8 6.4 6.9.7-5.2 4.6 1.5 6.8L12 16.5 6 20l1.5-6.8-5.2-4.6 6.9-.7L12 1.5z"/>
+        </svg>
+      </button>
+
+      <div class="glass-card rounded-3xl p-6 sm:p-8 text-center relative overflow-hidden">
+        <div class="inline-flex items-center gap-1.5 bg-starGold/15 border border-starGold/30 text-starGold text-xs px-3 py-1 rounded-full mb-3">
+          <span>⏳</span>
+          <span>از اولین سلامِ ما تا همین لحظه</span>
+        </div>
+
+        <h2 class="text-xl sm:text-2xl font-bold text-white mb-6">
+          ثانیه‌به‌ثانیه کنار تو قشنگ‌تر شد ✨
+        </h2>
+
+        <div class="grid grid-cols-4 gap-2.5 sm:gap-4 max-w-lg mx-auto">
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-3 sm:p-4">
+            <div id="cntDays" class="text-2xl sm:text-3xl font-extrabold text-starGold tabular-nums">۰</div>
+            <div class="text-[11px] sm:text-xs text-purple-200/80 mt-1">روز</div>
+          </div>
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-3 sm:p-4">
+            <div id="cntHours" class="text-2xl sm:text-3xl font-extrabold text-roseGlow tabular-nums">۰</div>
+            <div class="text-[11px] sm:text-xs text-purple-200/80 mt-1">ساعت</div>
+          </div>
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-3 sm:p-4">
+            <div id="cntMinutes" class="text-2xl sm:text-3xl font-extrabold text-starGold tabular-nums">۰</div>
+            <div class="text-[11px] sm:text-xs text-purple-200/80 mt-1">دقیقه</div>
+          </div>
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-3 sm:p-4">
+            <div id="cntSeconds" class="text-2xl sm:text-3xl font-extrabold text-roseGlow tabular-nums">۰</div>
+            <div class="text-[11px] sm:text-xs text-purple-200/80 mt-1">ثانیه</div>
+          </div>
+        </div>
+
+        <p class="text-[11px] text-purple-200/55 mt-4">
+          مرسی که هستی برام 💝
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- بخش ۳: آلبوم خاطرات پولاروید (خاطره‌هایی که داستان دارن) -->
+    <!-- ========================================== -->
+    <section id="memoriesSection" class="scroll-mt-20">
+      <div class="text-center mb-8">
+        <span class="text-starGold text-xs font-semibold tracking-wider">📷 آلبوم یادگاری‌های ما</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">خاطره‌هایی که داستان دارن</h2>
+        <p class="text-purple-200/75 text-sm mt-2">هر عکس یه تکه از قصهٔ ماست؛ بازش کن تا برات بگم اون لحظه چه حسی داشتم... 💗</p>
+      </div>
+
+      <div id="polaroidGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- کارت‌های پولاروید با جاوااسکریپت رندر می‌شوند -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- بخش ۴: چیزهای کوچیکی که از تو دوست دارم -->
+    <!-- ========================================== -->
+    <section id="traitsSection" class="scroll-mt-20">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8 text-center sm:text-right">
+        <div>
+          <span class="text-roseGlow text-xs font-semibold tracking-wider">🥰 جزئیاتِ قشنگِ تو</span>
+          <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">چیزهای کوچیکی که از تو دوست دارم</h2>
+          <p class="text-purple-200/75 text-sm mt-1">روی هر کارت بزن تا برگرده و رازش رو نشونت بده</p>
+        </div>
+        <button type="button" onclick="flipAllTraitCards()" class="self-center sm:self-auto text-xs bg-white/10 hover:bg-white/20 text-starGold border border-starGold/30 rounded-full px-4 py-2 transition">
+          برگردوندن همه کارت‌ها 🔄
+        </button>
+      </div>
+
+      <div id="traitsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3.5 sm:gap-4">
+        <!-- ۸ کارت چرخشی با جاوااسکریپت رندر می‌شوند -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- بخش ۵: پاکت‌هایی برای روزهای مختلف (Open When) -->
+    <!-- ========================================== -->
+    <section id="openWhenSection" class="scroll-mt-20 relative">
+      <div class="text-center mb-8">
+        <span class="text-starGold text-xs font-semibold tracking-wider">💛 همیشه همراهتم</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">پاکت‌هایی برای روزهای مختلف</h2>
+        <p class="text-purple-200/75 text-sm mt-2">هر وقت هر کدوم از این حس‌ها سراغت اومد، بیا اینجا و پاکتش رو باز کن</p>
+      </div>
+
+      <div id="openWhenGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- ۳ پاکت روزهای مختلف با جاوااسکریپت رندر می‌شوند -->
+      </div>
+
+      <!-- ستاره مخفی شماره ۲ (Easter Egg 2) -->
+      <div class="flex justify-end mt-6 pl-2">
+        <button id="secretStar2" type="button" onclick="discoverSecretStar(2)" class="secret-star-btn p-2 rounded-full focus:outline-none" title="یه ستاره چشمک‌زن دیگه...">
+          <svg class="w-7 h-7 text-roseGlow" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 1.5l2.8 6.4 6.9.7-5.2 4.6 1.5 6.8L12 16.5 6 20l1.5-6.8-5.2-4.6 6.9-.7L12 1.5z"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- بخش ۶: جشن تولد تعاملی و خاموش کردن شمع‌ها -->
+    <!-- ========================================== -->
+    <section id="cakeSection" class="scroll-mt-20">
+      <div class="glass-card rounded-3xl p-6 sm:p-10 text-center relative overflow-hidden">
+        <span class="text-roseGlow text-xs font-semibold tracking-wider">🎂 نوبتِ آرزوی قشنگته</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">جشن تولدِ کوچیکِ ما</h2>
+        <p id="cakePromptText" class="text-purple-100/85 text-sm sm:text-base mt-2 max-w-md mx-auto leading-relaxed">
+          چشم‌هات رو ببند، یه آرزوی قشنگ برای سال جدید زندگیت بکن و بعد شمع‌ها رو یکی‌یکی خاموش کن. امیدوارم همه آرزوهات، حتی اون‌هایی که به زبون نمیاری، به قشنگ‌ترین شکل برآورده بشن. ✨
+        </p>
+
+        <!-- شمارنده شمع‌های روشن -->
+        <div class="mt-4 inline-flex items-center gap-2 bg-white/10 px-3.5 py-1 rounded-full text-xs text-starGold">
+          <span>شمع‌های روشن:</span>
+          <span id="litCandlesCount" class="font-bold">۵ از ۵</span>
+        </div>
+
+        <!-- کیک تولد لایه‌ای تعاملی با ۵ شمع -->
+        <div class="relative max-w-xs mx-auto mt-8 mb-6 select-none">
+          <!-- ردیف ۵ شمع قابل لمس -->
+          <div id="candlesRow" class="flex items-end justify-center gap-4 sm:gap-5 relative z-20 -mb-2 px-6">
+            <!-- شمع‌ها با جاوااسکریپت ساخته می‌شوند تا لمس هرکدام مستقل و دقیق باشد -->
+          </div>
+
+          <!-- تصویر SVG کیک دوطبقه رویایی -->
+          <svg viewBox="0 0 280 175" class="w-full h-auto drop-shadow-[0_14px_25px_rgba(0,0,0,0.45)] relative z-10">
+            <!-- طبقه بالا -->
+            <rect x="65" y="18" width="150" height="58" rx="14" fill="#fce4ec" stroke="#f49cbb" stroke-width="2" />
+            <!-- خامه صورتی طبقه بالا -->
+            <path d="M65 32 Q78 48 92 32 T120 32 T148 32 T176 32 T204 32 L215 32 L215 24 Q215 18 205 18 L75 18 Q65 18 65 24 Z" fill="#f49cbb" />
+            <!-- مرواریدهای طلایی طبقه بالا -->
+            <circle cx="90" cy="56" r="3.5" fill="#ebd084" />
+            <circle cx="115" cy="56" r="3.5" fill="#ebd084" />
+            <circle cx="140" cy="56" r="3.5" fill="#ebd084" />
+            <circle cx="165" cy="56" r="3.5" fill="#ebd084" />
+            <circle cx="190" cy="56" r="3.5" fill="#ebd084" />
+
+            <!-- طبقه پایین -->
+            <rect x="35" y="72" width="210" height="72" rx="16" fill="#fffaf0" stroke="#ebd084" stroke-width="2.5" />
+            <!-- خامه طلایی-صورتی طبقه پایین -->
+            <path d="M35 90 Q52 108 70 90 T105 90 T140 90 T175 90 T210 90 T245 90 L245 82 Q245 72 232 72 L48 72 Q35 72 35 82 Z" fill="#ebd084" />
+            <!-- قلب وسط کیک -->
+            <path d="M140 126 C140 126 126 116 126 108 C126 103 130 100 134 100 C137 100 139 102 140 104 C141 102 143 100 146 100 C150 100 154 103 154 108 C154 116 140 126 140 126 Z" fill="#e06388" />
+
+            <!-- پایه کیک -->
+            <rect x="18" y="142" width="244" height="12" rx="6" fill="#d4af5a" />
+            <path d="M108 154 L172 154 L184 170 L96 170 Z" fill="#b8923f" />
+          </svg>
+        </div>
+
+        <!-- دکمه‌های فوت کردن یکجای شمع‌ها / روشن کردن دوباره -->
+        <div class="flex items-center justify-center gap-3 flex-wrap">
+          <button id="blowAllBtn" type="button" onclick="blowAllCandles()" class="bg-gradient-to-r from-roseGlow to-[#e06d96] text-inkDark font-bold text-sm px-6 py-3 rounded-full shadow-lg hover:brightness-105 active:scale-95 transition">
+            فوت کردن همه شمع‌ها 🌬️✨
+          </button>
+          <button id="relightBtn" type="button" onclick="resetCandles()" class="hidden bg-white/10 hover:bg-white/20 text-paperCream text-xs px-4 py-2.5 rounded-full border border-white/20 transition">
+            روشن کردن دوباره شمع‌ها 🔥
+          </button>
+        </div>
+
+        <!-- کارت تبریک تولد (پس از خاموش شدن هر ۵ شمع باز می‌شود) -->
+        <div id="birthdayWishReveal" class="hidden mt-8 paper-sheet rounded-2xl p-6 sm:p-7 text-right border-2 border-starGold transition-all duration-700">
+          <div class="flex items-center gap-2 text-rose-700 font-bold text-lg sm:text-xl mb-2">
+            <h3>🎉 تولدت مبارک پریای من! ❤️</h3>
+          </div>
+          <p class="text-inkDark/90 text-sm sm:text-base leading-8">
+            امیدوارم آرزویی که همین الان کردی، یه روز به یکی از قشنگ‌ترین اتفاق‌های زندگیت تبدیل بشه. مرسی که به دنیا اومدی و فرصت دادی که تو رو بشناسم، دوستت داشته باشم و این روز رو کنار تو جشن بگیرم. امیدوارم سال جدید زندگیت پر از اتفاق‌های خوب، خنده‌های از ته دل، تجربه‌های تازه و رسیدن به تمام چیزهایی باشه که دلت می‌خواد. من قول می‌دم توی تک‌تکشون کنارت باشم ❤️
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- بخش مستقل سورپرایز انتخاب عروسک هدیه -->
+    <!-- ========================================== -->
+    <section id="plushieSection" class="scroll-mt-20">
+      <div class="plushie-showcase rounded-3xl p-6 sm:p-9 relative overflow-hidden">
+        <!-- تزئینات ظریف و مینیمال گوشه‌ها -->
+        <span class="absolute top-4 right-5 text-lg opacity-45 pointer-events-none select-none" aria-hidden="true">🎀</span>
+        <span class="absolute top-4 left-5 text-base opacity-40 pointer-events-none select-none" aria-hidden="true">✨</span>
+        <span class="absolute bottom-3 left-6 text-sm opacity-35 pointer-events-none select-none" aria-hidden="true">💗</span>
+
+        <!-- عنوان و متن معرفی سورپرایز عروسک -->
+        <div class="text-center max-w-xl mx-auto mb-7">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-[#2d2235] leading-relaxed">
+            یه عروسک بزرگ و خوشگل برای تو! 🧸
+          </h2>
+          <div class="mt-3.5 space-y-1.5 text-sm sm:text-base text-[#2d2235]/85 font-medium leading-8">
+            <p>می‌دونی چیه؟ یه سورپرایز دیگه هم برات دارم!</p>
+            <p>قراره یه عروسک بزرگ و خوشگل برات بخرم تا یه دوست بامزه و دوست‌داشتنی داشته باشی! 🎀</p>
+            <p>ولی یه سؤال کوچولو دارم...</p>
+            <p class="font-bold text-[#b83b6e]">دوست داری عروسکت چه شکلی باشه؟</p>
+          </div>
+        </div>
+
+        <!-- مرحله انتخاب مدل عروسک -->
+        <div id="plushieSelectionStage">
+          <!-- شبکه ۸ کارت تصویری عروسک -->
+          <div id="plushieGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-4">
+            <!-- کارت‌های عروسک با جاوااسکریپت رندر می‌شوند -->
+          </div>
+
+          <!-- کادر اختصاصی نوشتن مدل دلخواه (فقط هنگام انتخاب گزینه هشتم نمایش داده می‌شود) -->
+          <div id="customPlushieBox" class="hidden mt-6 max-w-md mx-auto bg-white/95 border-2 border-[#f49cbb] rounded-2xl p-4 sm:p-5 text-right shadow-sm plushie-fade-in">
+            <h3 class="text-sm sm:text-base font-extrabold text-[#2d2235] mb-1.5">
+              خب پس خودت بگو چه عروسکی دوست داری! 💗
+            </h3>
+            <label for="customPlushieInput" class="block text-xs text-[#2d2235]/70 font-medium mb-2.5">
+              اسم عروسکت رو اینجا بنویس...
+            </label>
+            <input
+              id="customPlushieInput"
+              type="text"
+              autocomplete="off"
+              oninput="clearPlushieValidation()"
+              onkeydown="if(event.key==='Enter'){ event.preventDefault(); confirmPlushieSelection(); }"
+              placeholder="مثلاً توت‌فرنگی، ابر، ستاره یا هر عروسک دیگه‌ای که دوست داری..."
+              class="w-full rounded-xl border-2 border-[#f3dce6] focus:border-[#ec6b9e] focus:outline-none bg-[#fffafc] px-3.5 py-2.5 text-xs sm:text-sm text-[#2d2235] placeholder:text-[#2d2235]/40 transition"
+            />
+          </div>
+
+          <!-- پیام راهنمای ملایم در صورت عدم انتخاب یا خالی بودن کادر -->
+          <div id="plushieValidationWrap" class="hidden mt-5 text-center plushie-fade-in">
+            <p id="plushieValidationMsg" class="inline-block text-xs sm:text-sm font-semibold text-[#b83b6e] bg-[#ffe4ef] border border-[#f8bbd0] px-4 py-2 rounded-full"></p>
+          </div>
+
+          <!-- دکمه تأیید انتخاب -->
+          <div class="mt-7 text-center">
+            <button
+              id="confirmPlushieBtn"
+              type="button"
+              onclick="confirmPlushieSelection()"
+              class="bg-gradient-to-r from-[#ec6b9e] to-[#f48fb1] text-white font-extrabold text-sm sm:text-base px-8 py-3.5 rounded-full shadow-[0_10px_24px_rgba(236,107,158,0.32)] hover:brightness-105 active:scale-95 transition"
+            >
+              همین رو دوست دارم! 💕
+            </button>
+          </div>
+        </div>
+
+        <!-- کارت پیام پایانی پس از تأیید انتخاب -->
+        <div id="plushieConfirmedCard" class="hidden max-w-lg mx-auto bg-white/95 border-2 border-[#f49cbb]/80 rounded-3xl p-6 sm:p-8 text-center shadow-[0_14px_34px_rgba(214,104,146,0.18)] plushie-fade-in">
+          <div class="w-16 h-16 rounded-full bg-[#fff0f6] border border-[#f8bbd0] flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">
+            🧸
+          </div>
+          <h3 class="text-xl sm:text-2xl font-extrabold text-[#b83b6e] mb-3.5">
+            وای، چه انتخاب نازی کردی! 🧸💗
+          </h3>
+          <div class="space-y-1.5 text-sm sm:text-base text-[#2d2235]/90 font-medium leading-8">
+            <p>حالا دیگه می‌دونم چه عروسکی می‌تونه خوشحالت کنه.</p>
+            <p>قول می‌دم موقع انتخابش سلیقه‌ات رو در نظر بگیرم.</p>
+            <p class="font-bold text-[#2d2235]">منتظر عروسک خوشگلت باش!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- بخش ۸: خاطره‌هایی که هنوز نساختیم (آرزوهای آینده) -->
+    <!-- ========================================== -->
+    <section id="futureSection" class="scroll-mt-20">
+      <div class="text-center mb-8">
+        <span class="text-roseGlow text-xs font-semibold tracking-wider">🌱 ادامه‌دار مثلِ ما</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">خاطره‌هایی که هنوز نساختیم</h2>
+        <p class="text-purple-200/75 text-sm mt-2">این‌ها چندتا از آرزوهای دونفره‌مونه؛ هر کدوم رو که دلت می‌خواد زودتر به یه خاطره تبدیل کنیم، انتخاب کن. شاید همین‌ها خاطره‌های قشنگ فردامون بشن... ✨</p>
+      </div>
+
+      <div id="futureWishesList" class="space-y-3.5 max-w-2xl mx-auto">
+        <!-- با جاوااسکریپت رندر می‌شوند -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- بخش ۹: پاکت آخرِ رمزدار + نامه اصلی تولد -->
+    <!-- ========================================== -->
+    <section id="secretEnvelopeSection" class="scroll-mt-20">
+      <div class="text-center mb-8">
+        <span class="text-starGold text-xs font-semibold tracking-wider">🔐 شخصی‌ترین بخش هدیه</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mt-1">پاکت آخر؛ این یکی فقط برای خودته...</h2>
+        <p class="text-purple-200/75 text-sm mt-2">پشت این قفل طلایی، اصلِ حرف‌های دلم منتظرته</p>
+      </div>
+
+      <!-- کادر قفل پاکت (قبل از باز شدن) -->
+      <div id="lockedVaultCard" class="glass-card border-2 border-starGold/45 rounded-3xl p-6 sm:p-9 max-w-xl mx-auto text-center relative overflow-hidden">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-starGold/30 to-roseGlow/20 border border-starGold/50 flex items-center justify-center mx-auto mb-4 shadow-inner">
+          <span id="vaultLockIcon" class="text-3xl">🔒</span>
+        </div>
+
+        <h3 class="text-lg sm:text-xl font-bold text-starGold">پاکت مهروموم‌شدهٔ اختصاصی پریا</h3>
+        <p class="text-xs sm:text-sm text-purple-200/80 mt-2 mb-6 leading-relaxed">
+          رمز مخصوصمون رو وارد کن تا درِ پاکت باز بشه (هم کیبورد فارسی و هم انگلیسی قبوله)
+        </p>
+
+        <form onsubmit="event.preventDefault(); unlockFinalEnvelope();" class="max-w-xs mx-auto space-y-3">
+          <input
+            id="vaultPasswordInput"
+            type="text"
+            autocomplete="off"
+            autocapitalize="none"
+            autocorrect="off"
+            spellcheck="false"
+            placeholder="رمز مخصوصمون رو وارد کن..."
+            class="w-full text-center tracking-[0.35em] font-bold text-lg bg-[#120e29]/90 border-2 border-starGold/40 focus:border-starGold focus:outline-none rounded-2xl px-4 py-3 text-white placeholder:text-purple-300/35 placeholder:tracking-normal placeholder:font-normal transition"
+          />
+          <button type="submit" class="w-full bg-gradient-to-r from-starGold via-[#f3dc99] to-starGold text-inkDark font-extrabold text-sm sm:text-base py-3.5 rounded-2xl shadow-[0_8px_25px_rgba(235,208,132,0.3)] hover:brightness-105 active:scale-[0.98] transition">
+            باز کردن قفل پاکت ✨
+          </button>
+        </form>
+
+        <p id="vaultErrorMsg" class="hidden text-roseGlow text-xs font-medium mt-3">
+          رمزش این نبود قشنگم! یه نگاه به راهنمای پایین بنداز 💛
+        </p>
+
+        <!-- دکمه راهنمای رمز -->
+        <div class="mt-5">
+          <button type="button" onclick="togglePasswordHint()" class="text-xs text-starGold/85 hover:text-starGold underline underline-offset-4 transition">
+            راهنمای رمز 💡
+          </button>
+          <div id="passwordHintBox" class="hidden mt-3 bg-white/5 border border-starGold/25 rounded-xl p-3 text-xs text-purple-100/90 leading-6">
+            دوتا رمز هستش که هر جفتش هم درسته<br />
+            یکیش، شبیه به رمزیه که قبلا خودت برای یکی از بهترین کادو هام گذاشته بودی ... 😁<br />
+            اون یکی دیگه هم به تاریخ تولدت ربط داره 😇
+          </div>
+        </div>
+      </div>
+
+      <!-- محتوای بازشده پاکت آخر: نامه اصلی تولد -->
+      <div id="unlockedVaultContent" class="hidden">
+
+        <!-- نامه اصلی و مفصل تولد -->
+        <div class="paper-sheet rounded-3xl p-6 sm:p-10 relative border-2 border-[#d4af5a]">
+          <div class="flex items-center justify-between border-b border-amber-900/15 pb-3 mb-5" style="line-height: 1.6;">
+            <div>
+              <span class="text-xs font-bold text-rose-700">🔓 پاکت باز شد • نامه اصلی تولد</span>
+              <h3 class="text-xl sm:text-2xl font-extrabold text-inkDark mt-0.5">برای پریایِ عزیزتر از جانم...</h3>
+            </div>
+            <span class="text-2xl">💌</span>
+          </div>
+
+          <div class="lined-paper lined-paper-body !leading-[34px] text-sm sm:text-base text-inkDark font-medium">
+            <p class="!leading-[34px]">عشق خوشگلم،</p>
+            <p class="!leading-[34px]">پریای عزیزتر از جونم،</p>
+            <p class="!leading-[34px]">همه‌ی زندگیم...</p>
+            <p class="!leading-[34px]">واقعاً خیلی دوستت دارم.</p>
+            <p class="!leading-[34px]">خیلی خوشحالم که دارمت و توی زندگیمی. تو بهترین و قشنگ‌ترین اتفاق زندگی منی.</p>
+            <p class="!leading-[34px]">وقتی به شروع قصه‌مون فکر می‌کنم، هنوزم برام جالبه که همه‌چیز از چندتا پیام و اسپم توی گروه شروع شد! کم‌کم حرف‌هامون بیشتر شد، بیشتر همدیگه رو شناختیم و هر روز بیشتر از قبل با هم صحبت می‌کردیم. خبرها و اتفاقات روزمون رو برای هم تعریف می‌کردیم، شب‌ها شروع می‌کردیم به حرف زدن و خیلی وقت‌ها تا نصفه‌شب با هم صحبت می‌کردیم.</p>
+            <p class="!leading-[34px]">تو از پشت گوشی، برای من تبدیل شدی به خونه‌ی امنم؛ بهترین و صمیمی‌ترین دوستم، کسی که می‌تونم همه‌ی حرف‌هام رو راحت بهش بزنم و بدون هیچ ترسی از قضاوت شدن، خودِ واقعیم باشم.</p>
+            <p class="!leading-[34px]">واقعاً یادم نمیاد قبل از تو زندگی‌م چطور بود، ولی خوب می‌دونم از وقتی اومدی و توی زندگیمی، زندگی‌م خیلی بهتر شده.</p>
+            <p class="!leading-[34px]">زندگی با تو واقعاً جذاب‌تر و قشنگ‌تره. هر روز بیشتر از قبل خوشحال می‌شم که دختر فوق‌العاده‌ای مثل تو رو دارم و می‌تونم این همه لحظه‌ی قشنگ رو باهات تجربه کنم.</p>
+            <p class="!leading-[34px]">مرسی بابت تمام مهربونی‌هات، بابت توجهت به جزئیات، بابت لحظه‌هایی که با هم می‌خندیم و تمام خوبی‌ها و قشنگی‌های وجودت...</p>
+            <p class="!leading-[34px]">مرسی که خودتی و مرسی که توی زندگی منی.</p>
+            <p class="!leading-[34px]">من تا ابد و همیشه دوستت دارم و عاشقانه، از اعماق وجودم و با تمام وجودم عاشقتم.</p>
+            <p class="!leading-[34px]">تولدت مبارک، دخترِ عزیزِ قلبم! ❤️</p>
+            <p class="!leading-[34px]">امیدوارم بهترین‌ها برات اتفاق بیفته و همیشه حال دلت خوب باشه.</p>
+            <p class="!leading-[34px]">امیدوارم سال جدید زندگی‌ت پر از اتفاقات خوب، تجربه‌های تازه، موفقیت و رسیدن به آرزوهایی باشه که توی دلت داری.</p>
+            <p class="!leading-[34px]">منم دلم می‌خواد توی تمام مسیرهای پیش روت کنارت باشم؛ از خوشحالی‌هات خوشحال بشم، توی روزهای سخت دستت رو بگیرم و با هم خاطره‌هایی بسازیم که سال‌ها بعد، با یادآوریشون لبخند بزنیم.</p>
+            <p class="!leading-[34px]">خیلی دوستت دارم پریا، بیشتر از چیزی که بتونم توی این نامه بنویسم. ❤️</p>
+          </div>
+
+          <div class="mt-8 pt-4 border-t border-amber-900/15 flex items-center justify-between" style="line-height: 1.5;">
+            <span class="text-xs text-inkDark/60">نوشته‌شده با تمام وجودم</span>
+            <span class="font-extrabold text-rose-800 text-base">همیشه مالِ تو، اشکان ❤️</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- فوتر پایانی -->
+    <footer class="pt-10 pb-8 text-center border-t border-white/10">
+      <p class="text-starGold text-sm font-semibold">ساخته‌شده با تمام عشق، توسط اشکان، فقط برای پریا ❤️</p>
+      <p class="text-xs text-purple-200/50 mt-1.5">آسمون کوچیکِ ما • همیشه برای تو روشن می‌مونه</p>
+      <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="mt-5 inline-flex items-center gap-1.5 text-xs text-purple-200/75 hover:text-white bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full transition">
+        <span>برگشت به بالای آسمون</span>
+        <span>↑</span>
+      </button>
+    </footer>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- مودال عمومی برای نمایش خاطرات پولاروید، نامه‌های روزهای مختلف و ستاره‌های مخفی -->
+  <!-- ========================================== -->
+  <div id="universalModal" onclick="if(event.target===this) closeModal()" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+    <div id="modalContentBox" class="paper-sheet rounded-3xl w-full max-w-lg max-h-[86vh] overflow-y-auto p-6 sm:p-8 relative shadow-2xl transform transition-all">
+      <!-- دکمه بستن -->
+      <button type="button" onclick="closeModal()" class="sticky top-0 float-left w-9 h-9 rounded-full bg-inkDark/10 hover:bg-inkDark/20 text-inkDark flex items-center justify-center font-bold text-lg transition" aria-label="بستن پنجره">
+        ✕
+      </button>
+      <div id="modalBody" class="clear-both pt-1">
+        <!-- محتوای داینامیک مودال -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- منطق جاوااسکریپت و تنظیمات محتوای شخصی اشکان و پریا -->
+  <!-- ========================================== -->
+  <script>
+    /**
+     * تنظیمات مرکزی محتوا (SITE_CONFIG)
+     */
+    const SITE_CONFIG = {
+      herName: 'پریا',
+      hisName: 'اشکان',
+      // تاریخ اولین آشنایی: ۶ اردیبهشت ۱۴۰۰
+      relationshipStartISO: '2021-04-26T00:00:00',
+      // دو رمز معتبر پاکت آخر (به‌صورت رشته برای حفظ صفر ابتدایی)
+      vaultPasswords: ['iloveyoupariya', '06112006'],
+      // مشخصات فایل صوتی خوشامدگویی (۳ دقیقه و ۱۳ ثانیه = ۱۹۳ ثانیه)
+      voiceSrc: 'voice/voice.mp3',
+      voiceFallbackDuration: 193,
+
+      // متن خوشامدگویی تایپ‌شونده ابتدای سایت
+      welcomeMessage:
+        'پریای منن، عشق خوشگلم، تولدت مبارککک 🥳🥳\nاین گوشه‌ی کوچیک رو با عشق برای تو ساختم؛ پر از خاطره‌هامون و حرف‌هایی که دلم می‌خواست یه‌جا برات بنویسم. دوست داشتم یه یادگاری داشته باشی که هر وقت دلت خواست بهش سر بزنی، دوباره لبخند بزنی و یادت بیاد چقدر وجودت توی زندگی من عزیزه.\nقصه‌ی ما از چندتا پیام و گفت‌وگوی مجازی شروع شد و بعد از چند ماه، به دیداری رسید که هیچ‌وقت از یادم نمی‌ره. کلی حرف و خاطره توی این مسیر جمع شده که نمی‌شه همه‌شون رو توی چند صفحه جا داد.\nراستش حرف‌های من درباره‌ی تو خیلی بیشتر از این حرف‌هاست؛ چیزی که اینجا می‌بینی فقط گوشه‌ی کوچیکی از تمام خاطره‌ها و احساساتیه که دلم می‌خواست باهات قسمت کنم.\nعکس‌ها و پاکت‌ها هرکدوم بخشی از حرف‌های ناگفته‌ی دل منن؛ تکه‌هایی از خاطراتمون و احساساتی که شاید نتونم هیچ‌وقت اون‌طور که باید با کلمات بیانشون کنم. امیدوارم وقتی این گوشه‌ی کوچیک رو می‌بینی، ذره‌ای از عشقی رو که با تمام وجودم بهت دارم، حس کنی. این یادگاری کوچیک، برای توئه؛ با تمام عشق من ❤️',
+
+      // راهنمای اولیه خاموش کردن شمع‌ها
+      cakeInitialPrompt:
+        'چشم‌هات رو ببند، یه آرزوی قشنگ برای سال جدید زندگیت بکن و بعد شمع‌ها رو یکی‌یکی خاموش کن. امیدوارم همه آرزوهات، حتی اون‌هایی که به زبون نمیاری، به قشنگ‌ترین شکل برآورده بشن. ✨',
+
+      // ۲ ستاره مخفی (Easter Eggs)
+      secretStars: {
+        1: {
+          title: '🌟 ستاره مخفی اول رو پیدا کردی!',
+          body: 'آفرین به چشم‌های قشنگت که هیچ جزئیاتی ازش جا نمی‌مونه! یادته اولین باری که همو دیدیم باهم دوییدیم و بعدش تو اومدی بغلم و از خوشحالی جفتمون گریمون گرفته بود 🥹'
+        },
+        2: {
+          title: '🌟 ستاره مخفی دوم هم کشف شد!',
+          body: 'یه راز کوچیک بین خودمون: هرموقع که حالم بده به تو فکر میکنم و فقط فکر به تو حالم رو خوب میکنه و باعث میشه بی اختیار لبخند بزنم ❤️'
+        }
+      },
+
+      // ۳ خاطره منتخب پولاروید
+      memories: [
+        {
+          title: 'اولین باری که دیدمت',
+          date: 'شروعِ قصه‌مون ✨',
+          rotation: '-rotate-2',
+          image: 'images/1.jpg',
+          story: 'خیلی سخته بخوام توی چند جمله تمام حس اون روز رو بنویسم. با اینکه اولین بار بود که میدیدمت ولی انگار قبل از اون بار ها دیده بودمت و همیشه پیشم بودی. آرامشی که بغلت بهم داد با هیچی قابل مقایسه نبود.انگار تمام دلتنگی و ذوق اون چند سال توی همون لحظه جمع شده بود. هنوزم آرامشی که توی اون آغوش حس کردم، یکی از قشنگ‌ترین حس‌هاییه که تجربه کردم. 🥹'
+        },
+        {
+          title: 'قدم زدن‌های دونفره',
+          date: 'وقتی زمان کند می‌شه 🍂',
+          rotation: 'rotate-1',
+          image: 'images/2.jpg',
+          story: 'وقتی کنار هم قدم می‌زنیم و دستت توی دستمه، یه حس خوب و وصف‌نشدنی دارم. انگار دلم می‌خواد اون لحظه‌ها هیچ‌وقت تموم نشن؛ اما هر بار می‌بینم زمان چقدر زود می‌گذره. فرقی نمی‌کنه مسیرمون چقدر طولانی باشه، آخرش باز دلم می‌خواد چند قدم دیگه هم کنارم بمونی. کاش بعضی خیابون‌ها هیچ‌وقت تموم نمی‌شدن... 🍂'
+        },
+        {
+          title: 'لحظه‌ای که مطمئن شدم',
+          date: 'توی دلِ من ❤️',
+          rotation: '-rotate-2',
+          image: 'images/3.jpg',
+          story: 'شاید خودت حتی متوجه نباشی، اما بعضی از قشنگ‌ترین لحظه‌های من وقتیه که می‌بینم چقدر با دقت و مهربونی به چیزهای کوچیک توجه می‌کنی. همین جزئیات کوچیکن که هر بار بیشتر از قبل بهم یادآوری می‌کنن چقدر خوش‌شانسم که تو رو دارم. ❤️'
+        }
+      ],
+
+      // ۸ ویژگی دوست‌داشتنی پریا
+      traits: [
+        { emoji: '👀', front: 'چشم‌هات...', back: 'اون برقِ توی چشم‌هات وقتی از یه چیز کوچیک ذوق می‌کنی؛ همون لحظه‌هایی که دلم می‌خواد فقط نگاهت کنم. ✨' },
+        { emoji: '🎶', front: 'لحنِ صدات...', back: 'لحنِ صدات، مخصوصاً وقتی با ذوق یا شیطنت چیزی تعریف می‌کنی؛ شنیدنش همیشه حالم رو بهتر می‌کنه. ❤️' },
+        { emoji: '🤍', front: 'قلبِ مهربونت...', back: 'مهربونی و دلسوزیت، و اینکه چقدر با دل و جون به آدم‌هایی که دوستشون داری اهمیت می‌دی. این ویژگی‌ات واقعاً برام دوست‌داشتنیه. 🤍' },
+        { emoji: '😄', front: 'خنده‌هات...', back: 'خنده‌هات، مخصوصاً وقتی از ته دل می‌خندی؛ دیدنشون برای من خودش یه اتفاق دوست‌داشتنیه. 🥰' },
+        { emoji: '🦋', front: 'تکیه‌کلام‌هات...', back: 'واکنش‌ها و تکیه‌کلام‌های مخصوص خودت؛ چیزهایی که شاید برای بقیه عادی باشن، اما برای من امضای خودتن! 😄' },
+        { emoji: '🌸', front: 'دقتِ قشنگت...', back: 'اینکه چیزهای کوچیکی رو به خاطر می‌سپری که شاید از چشم بقیه دور بمونن؛ همین توجهت به جزئیات برام خیلی ارزشمنده. 🌸' },
+        { emoji: '🌙', front: 'آرامشِ حضورت...', back: 'اینکه حتی سکوت کردن کنار تو هم پر از حس خوب و آرامشه' },
+        { emoji: '👑', front: 'خودِ واقعیت...', back: 'خودِ واقعی و بی‌تکرارت؛ همون پریایی که با همه‌ی حال‌وهواها و شیطنت‌هاش، برای من دوست‌داشتنیه. 👑' }
+      ],
+
+      // ۳ پاکت «باز کن وقتی...»
+      openWhenLetters: [
+        {
+          title: 'وقتی دلت برام تنگ شد',
+          badge: 'پاکت دلتنگی 🥺',
+          sealColor: 'from-rose-400 to-pink-600',
+          letter: 'قشنگم، اگه الان این پاکت رو باز کردی، شاید دلت یه کم بیشتر از همیشه هوای منو کرده. کاش همین لحظه می‌تونستم کنارت باشم، دستت رو بگیرم و محکم بغلت کنم. چشم‌هات رو یه لحظه ببند و تصور کن دستم توی دستته. فاصله هرچقدر هم زیاد باشه، از دوست داشتنم به تو چیزی کم نمی‌کنه. تو همیشه یه جای ثابت توی فکر و قلب من داری، حتی وقتی کنار هم نیستیم. ❤️'
+        },
+        {
+          title: 'وقتی روز سخت و خسته‌کننده‌ای داشتی',
+          badge: 'پاکت دلگرمی 🌧️',
+          sealColor: 'from-indigo-400 to-purple-600',
+          letter: 'پریای قوی و قشنگم، می‌دونم بعضی روزها اون‌طوری که دلمون می‌خواد پیش نمی‌رن و ممکنه خسته‌تر از همیشه باشی یا حوصله هیچ‌چیزی رو نداشته باشی. اما می‌خوام یه چیزی رو یادت بندازم: لازم نیست همیشه قوی باشی، لازم نیست همه‌چیز رو به‌تنهایی از پسش بربیای و لازم نیست بابت روزهای سخت خودت رو سرزنش کنی. به خودت سخت نگیر، یه لیوان آب بخور، یه نفس عمیق بکش و کمی به خودت فرصت بده. تو به اندازه کافی فوق‌العاده‌ای و حتی توی خسته‌ترین و سخت‌ترین روزهات هم برای من به همون اندازه دوست‌داشتنی هستی. من بهت ایمان دارم و می‌خوام بدونی توی تمام روزهای سخت و آسون، همیشه کنارتم و می‌تونی روی من حساب کنی. 🤍'
+        },
+        {
+          title: 'وقتی خواستی بدونی چقدر دوستت دارم',
+          badge: 'پاکت عشق ❤️',
+          sealColor: 'from-amber-400 to-rose-500',
+          letter: 'پریای من، نمی‌دونم چطور می‌شه تمام چیزی رو که توی قلبمه با کلمه‌ها توضیح داد. من تو رو خیلی بیشتر از چیزی که بتونم توی چند جمله بنویسم دوست دارم؛ بیشتر از چیزی که حتی خودم بتونم اندازه‌ش رو توصیف کنم. تو برای من فقط کسی نیستی که دوستش دارم؛ تو همون آدمی هستی که دلم می‌خواد اتفاق‌های کوچیک و بزرگ زندگیم رو اول از همه باهاش قسمت کنم. تو قشنگ‌ترین انتخاب قلب منی و از تمام لحظه‌هایی که تا امروز با هم داشتیم تا همه روزهایی که هنوز قراره کنار هم بسازیم، تک‌تکشون برام عزیزن؛ چون تو توی همه‌شون حضور داری. دوستت دارم، خیلی خیلی بیشتر از چیزی که این چند خط بتونن نشون بدن. ❤️'
+        }
+      ],
+
+      // ۴ آرزوی مشترک آینده
+      futureWishes: [
+        { id: 'w1', icon: '🌅', title: 'دیدن طلوع خورشید کنار دریا، دست تو دست هم' },
+        { id: 'w2', icon: '🚗', title: 'اولین سفر جاده‌ای طولانی با پلی‌لیست مخصوص خودمون' },
+        { id: 'w3', icon: '🍝', title: 'آشپزی نصفه‌شب با هم و خندیدن به خرابکاری‌هامون' },
+        { id: 'w5', icon: '🥂', title: 'جشن گرفتن تولدهای خیلیِ خیلی سال بعد، دقیقاً کنار هم' }
+      ],
+
+      // ۸ گزینه کارت‌های تصویری انتخاب عروسک هدیه (سبک تصویرسازی هماهنگ پاستلی-عروسکی)
+      plushieOptions: [
+        {
+          id: 'bear',
+          title: 'خرس 🐻',
+          desc: 'یه خرس بزرگ و بغلی!',
+          svg: `
+            <svg viewBox="0 0 200 150" class="w-full h-full" aria-hidden="true">
+              <defs>
+                <linearGradient id="plushBgBear" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#fff1f5"/>
+                  <stop offset="100%" stop-color="#fde8d7"/>
+                </linearGradient>
+              </defs>
+              <rect width="200" height="150" fill="url(#plushBgBear)"/>
+              <circle cx="34" cy="28" r="2.5" fill="#f49cbb" opacity="0.65"/>
+              <path d="M165 25 C165 22 169 20 171 23 C173 20 177 22 177 25 C177 29 171 33 171 33 C171 33 165 29 165 25 Z" fill="#f49cbb" opacity="0.55"/>
+              <ellipse cx="100" cy="136" rx="46" ry="7" fill="#7a495c" opacity="0.1"/>
+              <!-- گوش‌ها -->
+              <circle cx="67" cy="40" r="16" fill="#c98350" stroke="#ad6b3c" stroke-width="2"/>
+              <circle cx="67" cy="40" r="9" fill="#fdebd9"/>
+              <circle cx="133" cy="40" r="16" fill="#c98350" stroke="#ad6b3c" stroke-width="2"/>
+              <circle cx="133" cy="40" r="9" fill="#fdebd9"/>
+              <!-- بدن و دست‌وپا -->
+              <ellipse cx="100" cy="108" rx="35" ry="27" fill="#d7925f" stroke="#ad6b3c" stroke-width="2"/>
+              <ellipse cx="100" cy="110" rx="21" ry="18" fill="#fff3e6" stroke="#c98350" stroke-width="1.3" stroke-dasharray="3 2.5"/>
+              <path d="M94 107 C94 104 98 102 100 105 C102 102 106 104 106 107 C106 111 100 115 100 115 C100 115 94 111 94 107 Z" fill="#ec6b9e"/>
+              <ellipse cx="66" cy="102" rx="11" ry="15" transform="rotate(22 66 102)" fill="#d7925f" stroke="#ad6b3c" stroke-width="2"/>
+              <ellipse cx="134" cy="102" rx="11" ry="15" transform="rotate(-22 134 102)" fill="#d7925f" stroke="#ad6b3c" stroke-width="2"/>
+              <circle cx="71" cy="126" r="13" fill="#c98350" stroke="#ad6b3c" stroke-width="2"/>
+              <circle cx="71" cy="127" r="7" fill="#fdebd9"/>
+              <circle cx="129" cy="126" r="13" fill="#c98350" stroke="#ad6b3c" stroke-width="2"/>
+              <circle cx="129" cy="127" r="7" fill="#fdebd9"/>
+              <!-- سر -->
+              <ellipse cx="100" cy="64" rx="40" ry="34" fill="#df9b69" stroke="#ad6b3c" stroke-width="2"/>
+              <line x1="100" y1="31" x2="100" y2="43" stroke="#b87343" stroke-width="1.4" stroke-dasharray="2.5 2.5"/>
+              <ellipse cx="100" cy="72" rx="16" ry="12" fill="#fff6ec"/>
+              <ellipse cx="100" cy="68" rx="5.5" ry="4" fill="#593626"/>
+              <path d="M95 75 Q100 79 105 75" fill="none" stroke="#593626" stroke-width="2" stroke-linecap="round"/>
+              <!-- چشم‌ها و گونه‌ها -->
+              <ellipse cx="75" cy="68" rx="7.5" ry="4.5" fill="#f58fb0" opacity="0.65"/>
+              <ellipse cx="125" cy="68" rx="7.5" ry="4.5" fill="#f58fb0" opacity="0.65"/>
+              <circle cx="82" cy="60" r="4.6" fill="#35202e"/>
+              <circle cx="80.5" cy="58.4" r="1.6" fill="#ffffff"/>
+              <circle cx="118" cy="60" r="4.6" fill="#35202e"/>
+              <circle cx="116.5" cy="58.4" r="1.6" fill="#ffffff"/>
+            </svg>
+          `
+        },
+        {
+          id: 'bunny',
+          title: 'خرگوش 🐰',
+          desc: 'یه خرگوش ناز و دوست‌داشتنی!',
+          svg: `
+            <svg viewBox="0 0 200 150" class="w-full h-full" aria-hidden="true">
+              <defs>
+                <linearGradient id="plushBgBunny" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#fdf2f8"/>
+                  <stop offset="100%" stop-color="#f3e8ff"/>
+                </linearGradient>
+              </defs>
+              <rect width="200" height="150" fill="url(#plushBgBunny)"/>
+              <circle cx="36" cy="34" r="2.5" fill="#ec6b9e" opacity="0.5"/>
+              <circle cx="166" cy="30" r="3" fill="#c084fc" opacity="0.45"/>
+              <ellipse cx="100" cy="137" rx="43" ry="6.5" fill="#7a495c" opacity="0.09"/>
+              <!-- گوش‌های بلند خرگوش -->
+              <ellipse cx="81" cy="34" rx="11.5" ry="27" transform="rotate(-10 81 34)" fill="#ffffff" stroke="#d9becb" stroke-width="2"/>
+              <ellipse cx="81" cy="35" rx="6" ry="19" transform="rotate(-10 81 35)" fill="#fbcfe0"/>
+              <ellipse cx="119" cy="34" rx="11.5" ry="27" transform="rotate(12 119 34)" fill="#ffffff" stroke="#d9becb" stroke-width="2"/>
+              <ellipse cx="119" cy="35" rx="6" ry="19" transform="rotate(12 119 35)" fill="#fbcfe0"/>
+              <!-- پاپیون صورتی روی گوش -->
+              <path d="M118 46 L109 41 L110 51 Z" fill="#ec6b9e"/>
+              <path d="M118 46 L127 41 L126 51 Z" fill="#ec6b9e"/>
+              <circle cx="118" cy="46" r="3.2" fill="#f48fb1"/>
+              <!-- بدن و دست‌وپا -->
+              <ellipse cx="100" cy="111" rx="32" ry="24" fill="#ffffff" stroke="#d9becb" stroke-width="2"/>
+              <ellipse cx="100" cy="113" rx="18" ry="15" fill="#fff5f9" stroke="#f4abc4" stroke-width="1.3" stroke-dasharray="3 2.5"/>
+              <ellipse cx="69" cy="105" rx="9.5" ry="13" transform="rotate(20 69 105)" fill="#ffffff" stroke="#d9becb" stroke-width="2"/>
+              <ellipse cx="131" cy="105" rx="9.5" ry="13" transform="rotate(-20 131 105)" fill="#ffffff" stroke="#d9becb" stroke-width="2"/>
+              <ellipse cx="75" cy="128" rx="12" ry="10" fill="#ffffff" stroke="#d9becb" stroke-width="2"/>
+              <ellipse cx="75" cy="129" rx="6.5" ry="5" fill="#fbcfe0"/>
+              <ellipse cx="125" cy="128" rx="12" ry="10" fill="#ffffff" stroke="#d9becb" stroke-width="2"/>
+              <ellipse cx="125" cy="129" rx="6.5" ry="5" fill="#fbcfe0"/>
+              <!-- سر -->
+              <ellipse cx="100" cy="72" rx="37" ry="31" fill="#ffffff" stroke="#d9becb" stroke-width="2"/>
+              <ellipse cx="76" cy="77" rx="7.5" ry="4.5" fill="#f79bb6" opacity="0.7"/>
+              <ellipse cx="124" cy="77" rx="7.5" ry="4.5" fill="#f79bb6" opacity="0.7"/>
+              <circle cx="83" cy="69" r="4.5" fill="#35202e"/>
+              <circle cx="81.6" cy="67.5" r="1.6" fill="#ffffff"/>
+              <circle cx="117" cy="69" r="4.5" fill="#35202e"/>
+              <circle cx="115.6" cy="67.5" r="1.6" fill="#ffffff"/>
+              <ellipse cx="100" cy="75" rx="4" ry="3" fill="#ec6b9e"/>
+              <path d="M95 80 Q98 83 100 80 Q102 83 105 80" fill="none" stroke="#6e4555" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          `
+        },
+        {
+          id: 'unicorn',
+          title: 'تک‌شاخ 🦄',
+          desc: 'یه تک‌شاخ جادویی!',
+          svg: `
+            <svg viewBox="0 0 200 150" class="w-full h-full" aria-hidden="true">
+              <defs>
+                <linearGradient id="plushBgUni" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#f6efff"/>
+                  <stop offset="100%" stop-color="#ffeef6"/>
+                </linearGradient>
+              </defs>
+              <rect width="200" height="150" fill="url(#plushBgUni)"/>
+              <path d="M35 26 L37 31 L42 33 L37 35 L35 40 L33 35 L28 33 L33 31 Z" fill="#ebd084"/>
+              <path d="M164 24 L165.5 28 L169.5 29.5 L165.5 31 L164 35 L162.5 31 L158.5 29.5 L162.5 28 Z" fill="#f49cbb"/>
+              <ellipse cx="100" cy="137" rx="44" ry="6.5" fill="#5e3d75" opacity="0.1"/>
+              <!-- دم پاستلی -->
+              <circle cx="139" cy="116" r="11" fill="#d8b4fe"/>
+              <circle cx="145" cy="108" r="9" fill="#f9a8d4"/>
+              <!-- بدن و سم‌های پاستلی -->
+              <ellipse cx="100" cy="111" rx="33" ry="24" fill="#ffffff" stroke="#d5c2e8" stroke-width="2"/>
+              <ellipse cx="100" cy="113" rx="18" ry="14" fill="#fdf4ff" stroke="#e9d5ff" stroke-width="1.4" stroke-dasharray="3 2.5"/>
+              <ellipse cx="69" cy="105" rx="9.5" ry="13" transform="rotate(20 69 105)" fill="#ffffff" stroke="#d5c2e8" stroke-width="2"/>
+              <ellipse cx="131" cy="105" rx="9.5" ry="13" transform="rotate(-20 131 105)" fill="#ffffff" stroke="#d5c2e8" stroke-width="2"/>
+              <circle cx="74" cy="128" r="11" fill="#f9a8d4" stroke="#d5c2e8" stroke-width="1.8"/>
+              <circle cx="126" cy="128" r="11" fill="#f9a8d4" stroke="#d5c2e8" stroke-width="1.8"/>
+              <!-- گوش‌ها و سر -->
+              <ellipse cx="70" cy="48" rx="9" ry="15" transform="rotate(-24 70 48)" fill="#ffffff" stroke="#d5c2e8" stroke-width="2"/>
+              <ellipse cx="70" cy="49" rx="4.5" ry="9" transform="rotate(-24 70 49)" fill="#fbcfe0"/>
+              <ellipse cx="130" cy="48" rx="9" ry="15" transform="rotate(24 130 48)" fill="#ffffff" stroke="#d5c2e8" stroke-width="2"/>
+              <ellipse cx="130" cy="49" rx="4.5" ry="9" transform="rotate(24 130 49)" fill="#fbcfe0"/>
+              <ellipse cx="100" cy="70" rx="37" ry="31" fill="#ffffff" stroke="#d5c2e8" stroke-width="2"/>
+              <!-- یال پاستلی و شاخ طلایی -->
+              <circle cx="88" cy="41" r="9.5" fill="#f9a8d4"/>
+              <circle cx="111" cy="42" r="9" fill="#d8b4fe"/>
+              <circle cx="100" cy="44" r="9" fill="#fbcfe8"/>
+              <path d="M93 39 L100 12 L107 39 Z" fill="#f7d56e" stroke="#d4a73b" stroke-width="1.8" stroke-linejoin="round"/>
+              <line x1="95.5" y1="31" x2="104.5" y2="28" stroke="#d4a73b" stroke-width="1.4"/>
+              <line x1="97.5" y1="22" x2="102.5" y2="20" stroke="#d4a73b" stroke-width="1.4"/>
+              <!-- صورت -->
+              <ellipse cx="100" cy="78" rx="15" ry="10" fill="#fff5f9"/>
+              <ellipse cx="75" cy="75" rx="7" ry="4.2" fill="#f79bb6" opacity="0.68"/>
+              <ellipse cx="125" cy="75" rx="7" ry="4.2" fill="#f79bb6" opacity="0.68"/>
+              <circle cx="83" cy="67" r="4.5" fill="#35202e"/>
+              <circle cx="81.5" cy="65.5" r="1.6" fill="#ffffff"/>
+              <circle cx="117" cy="67" r="4.5" fill="#35202e"/>
+              <circle cx="115.5" cy="65.5" r="1.6" fill="#ffffff"/>
+              <path d="M95 79 Q100 83 105 79" fill="none" stroke="#6e4555" stroke-width="1.9" stroke-linecap="round"/>
+            </svg>
+          `
+        },
+        {
+          id: 'cat',
+          title: 'گربه 🐱',
+          desc: 'یه گربه پشمالو!',
+          svg: `
+            <svg viewBox="0 0 200 150" class="w-full h-full" aria-hidden="true">
+              <defs>
+                <linearGradient id="plushBgCat" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#fff4ed"/>
+                  <stop offset="100%" stop-color="#ffeef5"/>
+                </linearGradient>
+              </defs>
+              <rect width="200" height="150" fill="url(#plushBgCat)"/>
+              <circle cx="35" cy="30" r="2.5" fill="#f49cbb" opacity="0.55"/>
+              <circle cx="166" cy="28" r="2.5" fill="#f3b689" opacity="0.65"/>
+              <ellipse cx="100" cy="137" rx="44" ry="6.5" fill="#7a495c" opacity="0.1"/>
+              <!-- دم پشمالو -->
+              <path d="M130 120 Q156 112 150 90 Q146 80 139 88 Q143 104 127 112" fill="#fbd8b8" stroke="#d9a67e" stroke-width="2" stroke-linecap="round"/>
+              <!-- بدن -->
+              <ellipse cx="100" cy="110" rx="33" ry="25" fill="#ffe3c8" stroke="#d9a67e" stroke-width="2"/>
+              <ellipse cx="100" cy="112" rx="19" ry="16" fill="#fffaf4" stroke="#ecc09b" stroke-width="1.3" stroke-dasharray="3 2.5"/>
+              <ellipse cx="70" cy="105" rx="9.5" ry="13" transform="rotate(18 70 105)" fill="#ffe3c8" stroke="#d9a67e" stroke-width="2"/>
+              <ellipse cx="130" cy="105" rx="9.5" ry="13" transform="rotate(-18 130 105)" fill="#ffe3c8" stroke="#d9a67e" stroke-width="2"/>
+              <circle cx="75" cy="128" r="11" fill="#fffaf4" stroke="#d9a67e" stroke-width="2"/>
+              <circle cx="75" cy="129" r="4.5" fill="#f9a8d4"/>
+              <circle cx="125" cy="128" r="11" fill="#fffaf4" stroke="#d9a67e" stroke-width="2"/>
+              <circle cx="125" cy="129" r="4.5" fill="#f9a8d4"/>
+              <!-- گوش‌های مثلثی و سر گربه -->
+              <polygon points="63,56 70,27 91,43" fill="#fbd8b8" stroke="#d9a67e" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="68,52 72,34 86,44" fill="#f9a8d4"/>
+              <polygon points="137,56 130,27 109,43" fill="#fbd8b8" stroke="#d9a67e" stroke-width="2" stroke-linejoin="round"/>
+              <polygon points="132,52 128,34 114,44" fill="#f9a8d4"/>
+              <ellipse cx="100" cy="68" rx="39" ry="32" fill="#ffe6ce" stroke="#d9a67e" stroke-width="2"/>
+              <!-- خط‌های بامزه پیشانی و سبیل‌ها -->
+              <line x1="100" y1="39" x2="100" y2="47" stroke="#df9e6e" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="93" y1="41" x2="95" y2="47" stroke="#df9e6e" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="107" y1="41" x2="105" y2="47" stroke="#df9e6e" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="56" y1="68" x2="68" y2="70" stroke="#b98664" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="56" y1="75" x2="68" y2="74" stroke="#b98664" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="144" y1="68" x2="132" y2="70" stroke="#b98664" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="144" y1="75" x2="132" y2="74" stroke="#b98664" stroke-width="1.6" stroke-linecap="round"/>
+              <!-- چشم‌ها و دهان -->
+              <ellipse cx="76" cy="74" rx="7" ry="4.2" fill="#f79bb6" opacity="0.68"/>
+              <ellipse cx="124" cy="74" rx="7" ry="4.2" fill="#f79bb6" opacity="0.68"/>
+              <circle cx="83" cy="65" r="4.6" fill="#35202e"/>
+              <circle cx="81.5" cy="63.4" r="1.6" fill="#ffffff"/>
+              <circle cx="117" cy="65" r="4.6" fill="#35202e"/>
+              <circle cx="115.5" cy="63.4" r="1.6" fill="#ffffff"/>
+              <polygon points="96,71 104,71 100,75" fill="#ec6b9e"/>
+              <path d="M94 78 Q97 81 100 77.5 Q103 81 106 78" fill="none" stroke="#6b4433" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          `
+        },
+        {
+          id: 'dog',
+          title: 'سگ 🐶',
+          desc: 'یک هاپو بانمک!',
+          svg: `
+            <svg viewBox="0 0 200 150" class="w-full h-full" aria-hidden="true">
+              <defs>
+                <linearGradient id="plushBgDog" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#fef7ed"/>
+                  <stop offset="100%" stop-color="#fff0f5"/>
+                </linearGradient>
+              </defs>
+              <rect width="200" height="150" fill="url(#plushBgDog)"/>
+              <circle cx="34" cy="30" r="2.5" fill="#e6b07e" opacity="0.6"/>
+              <path d="M163 26 C163 23 167 21 169 24 C171 21 175 23 175 26 C175 30 169 34 169 34 C169 34 163 30 163 26 Z" fill="#f49cbb" opacity="0.55"/>
+              <ellipse cx="100" cy="137" rx="45" ry="6.5" fill="#7a495c" opacity="0.1"/>
+              <!-- دم کوچولو -->
+              <ellipse cx="137" cy="114" rx="11" ry="6" transform="rotate(-28 137 114)" fill="#a5704f" stroke="#855639" stroke-width="1.8"/>
+              <!-- بدن و قلاده قلبی -->
+              <ellipse cx="100" cy="110" rx="33" ry="25" fill="#f8e5c8" stroke="#cda67e" stroke-width="2"/>
+              <ellipse cx="100" cy="113" rx="19" ry="15" fill="#fffaf2" stroke="#dfc09d" stroke-width="1.3" stroke-dasharray="3 2.5"/>
+              <ellipse cx="69" cy="105" rx="10" ry="13" transform="rotate(20 69 105)" fill="#f8e5c8" stroke="#cda67e" stroke-width="2"/>
+              <ellipse cx="131" cy="105" rx="10" ry="13" transform="rotate(-20 131 105)" fill="#f8e5c8" stroke="#cda67e" stroke-width="2"/>
+              <circle cx="75" cy="128" r="11.5" fill="#f8e5c8" stroke="#cda67e" stroke-width="2"/>
+              <circle cx="125" cy="128" r="11.5" fill="#f8e5c8" stroke="#cda67e" stroke-width="2"/>
+              <rect x="81" y="92" width="38" height="6" rx="3" fill="#ec6b9e"/>
+              <circle cx="100" cy="99" r="4.5" fill="#ebd084" stroke="#c9a24b" stroke-width="1.2"/>
+              <!-- گوش‌های افتاده شکلاتی و سر -->
+              <ellipse cx="61" cy="67" rx="12" ry="23" transform="rotate(16 61 67)" fill="#a5704f" stroke="#855639" stroke-width="2"/>
+              <ellipse cx="139" cy="67" rx="12" ry="23" transform="rotate(-16 139 67)" fill="#a5704f" stroke="#855639" stroke-width="2"/>
+              <ellipse cx="100" cy="65" rx="37" ry="31" fill="#faebd4" stroke="#cda67e" stroke-width="2"/>
+              <!-- لکه بامزه دور چشم -->
+              <ellipse cx="82" cy="61" rx="12" ry="11" fill="#e5c199"/>
+              <ellipse cx="100" cy="73" rx="14" ry="10" fill="#fffaf2"/>
+              <ellipse cx="74" cy="72" rx="6.5" ry="4" fill="#f79bb6" opacity="0.65"/>
+              <ellipse cx="126" cy="72" rx="6.5" ry="4" fill="#f79bb6" opacity="0.65"/>
+              <circle cx="83" cy="61" r="4.6" fill="#35202e"/>
+              <circle cx="81.5" cy="59.4" r="1.6" fill="#ffffff"/>
+              <circle cx="117" cy="61" r="4.6" fill="#35202e"/>
+              <circle cx="115.5" cy="59.4" r="1.6" fill="#ffffff"/>
+              <ellipse cx="100" cy="69" rx="5.5" ry="4" fill="#4f3224"/>
+              <path d="M97 76 Q100 83 103 76 Z" fill="#fb7185"/>
+              <path d="M94 75 Q97 78 100 74.5 Q103 78 106 75" fill="none" stroke="#4f3224" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          `
+        },
+        {
+          id: 'capybara',
+          title: 'کاپی‌بارا',
+          desc: 'یه کاپی‌بارای کیوت!',
+          svg: `
+            <svg viewBox="0 0 200 150" class="w-full h-full" aria-hidden="true">
+              <defs>
+                <linearGradient id="plushBgCapy" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#fef8ec"/>
+                  <stop offset="100%" stop-color="#fff0f6"/>
+                </linearGradient>
+              </defs>
+              <rect width="200" height="150" fill="url(#plushBgCapy)"/>
+              <circle cx="36" cy="31" r="2.5" fill="#f49cbb" opacity="0.6"/>
+              <circle cx="165" cy="29" r="2.8" fill="#ebd084" opacity="0.7"/>
+              <ellipse cx="100" cy="137" rx="46" ry="6.5" fill="#6b4433" opacity="0.11"/>
+              <!-- بدن تپلی کاپی‌بارا -->
+              <ellipse cx="100" cy="110" rx="37" ry="25" fill="#c58c61" stroke="#9b6640" stroke-width="2"/>
+              <ellipse cx="100" cy="113" rx="21" ry="15" fill="#e3b690" stroke="#a8734c" stroke-width="1.3" stroke-dasharray="3 2.5"/>
+              <ellipse cx="74" cy="128" rx="10.5" ry="8.5" fill="#9b6640" stroke="#7d4f2f" stroke-width="1.8"/>
+              <ellipse cx="126" cy="128" rx="10.5" ry="8.5" fill="#9b6640" stroke="#7d4f2f" stroke-width="1.8"/>
+              <!-- گوش‌های گرد کوچولو و سر -->
+              <circle cx="70" cy="43" r="9.5" fill="#9b6640" stroke="#7d4f2f" stroke-width="2"/>
+              <circle cx="130" cy="43" r="9.5" fill="#9b6640" stroke="#7d4f2f" stroke-width="2"/>
+              <rect x="61" y="38" width="78" height="60" rx="29" fill="#cc9468" stroke="#9b6640" stroke-width="2"/>
+              <!-- گل شکوفه صورتی روی سر کاپی‌بارا -->
+              <circle cx="100" cy="31" r="5" fill="#f9a8d4"/>
+              <circle cx="94" cy="35" r="5" fill="#f9a8d4"/>
+              <circle cx="106" cy="35" r="5" fill="#f9a8d4"/>
+              <circle cx="96" cy="40" r="4.5" fill="#fbcfe8"/>
+              <circle cx="104" cy="40" r="4.5" fill="#fbcfe8"/>
+              <circle cx="100" cy="36" r="3.5" fill="#fde047"/>
+              <!-- پوزه گرد و بامزه کاپی‌بارا -->
+              <ellipse cx="100" cy="73" rx="16" ry="13" fill="#a9734b" stroke="#8c5a37" stroke-width="1.5"/>
+              <circle cx="95" cy="69" r="2" fill="#4a2c1a"/>
+              <circle cx="105" cy="69" r="2" fill="#4a2c1a"/>
+              <line x1="100" y1="71" x2="100" y2="77" stroke="#4a2c1a" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M94 78 Q97 81 100 77.5 Q103 81 106 78" fill="none" stroke="#4a2c1a" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- چشم‌ها و گونه‌های صورتی -->
+              <ellipse cx="73" cy="72" rx="7" ry="4.2" fill="#f58fad" opacity="0.72"/>
+              <ellipse cx="127" cy="72" rx="7" ry="4.2" fill="#f58fad" opacity="0.72"/>
+              <circle cx="79" cy="62" r="4.4" fill="#35202e"/>
+              <circle cx="77.6" cy="60.5" r="1.5" fill="#ffffff"/>
+              <circle cx="121" cy="62" r="4.4" fill="#35202e"/>
+              <circle cx="119.6" cy="60.5" r="1.5" fill="#ffffff"/>
+            </svg>
+          `
+        },
+        {
+          id: 'dino',
+          title: 'دایناسور 🦖',
+          desc: 'یه دایناسور کوچولوی بامزه!',
+          svg: `
+            <svg viewBox="0 0 200 150" class="w-full h-full" aria-hidden="true">
+              <defs>
+                <linearGradient id="plushBgDino" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#eefcf5"/>
+                  <stop offset="100%" stop-color="#fff0f6"/>
+                </linearGradient>
+              </defs>
+              <rect width="200" height="150" fill="url(#plushBgDino)"/>
+              <circle cx="35" cy="29" r="2.5" fill="#76caa4" opacity="0.6"/>
+              <circle cx="166" cy="31" r="2.8" fill="#f49cbb" opacity="0.6"/>
+              <ellipse cx="100" cy="137" rx="45" ry="6.5" fill="#466b5c" opacity="0.1"/>
+              <!-- فلس‌های نرم صورتی پشت سر و دم -->
+              <circle cx="100" cy="27" r="7.5" fill="#f7a1c0" stroke="#de7ba0" stroke-width="1.5"/>
+              <circle cx="120" cy="33" r="7" fill="#f7a1c0" stroke="#de7ba0" stroke-width="1.5"/>
+              <circle cx="134" cy="48" r="6.5" fill="#f7a1c0" stroke="#de7ba0" stroke-width="1.5"/>
+              <path d="M126 116 Q154 118 156 97 Q150 93 141 102 Q135 107 125 106 Z" fill="#9ce0c2" stroke="#6ab896" stroke-width="2" stroke-linejoin="round"/>
+              <circle cx="148" cy="96" r="5" fill="#f7a1c0"/>
+              <!-- بدن و شکم دوخته‌شده -->
+              <ellipse cx="98" cy="108" rx="34" ry="26" fill="#9ce0c2" stroke="#6ab896" stroke-width="2"/>
+              <ellipse cx="98" cy="111" rx="20" ry="17" fill="#fff9e2" stroke="#ebd084" stroke-width="1.4" stroke-dasharray="3 2.5"/>
+              <line x1="84" y1="106" x2="112" y2="106" stroke="#ead296" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="83" y1="114" x2="113" y2="114" stroke="#ead296" stroke-width="1.5" stroke-linecap="round"/>
+              <!-- دست‌وپاهای کوچولو -->
+              <ellipse cx="72" cy="100" rx="8.5" ry="6.5" transform="rotate(20 72 100)" fill="#9ce0c2" stroke="#6ab896" stroke-width="2"/>
+              <ellipse cx="124" cy="100" rx="8.5" ry="6.5" transform="rotate(-20 124 100)" fill="#9ce0c2" stroke="#6ab896" stroke-width="2"/>
+              <ellipse cx="74" cy="128" rx="12" ry="9.5" fill="#88d4b2" stroke="#6ab896" stroke-width="2"/>
+              <ellipse cx="122" cy="128" rx="12" ry="9.5" fill="#88d4b2" stroke="#6ab896" stroke-width="2"/>
+              <!-- سر دایناسور کوچولو -->
+              <ellipse cx="98" cy="64" rx="37" ry="31" fill="#a5e6c9" stroke="#6ab896" stroke-width="2"/>
+              <ellipse cx="74" cy="70" rx="7" ry="4.2" fill="#f79bb6" opacity="0.7"/>
+              <ellipse cx="122" cy="70" rx="7" ry="4.2" fill="#f79bb6" opacity="0.7"/>
+              <circle cx="82" cy="60" r="4.6" fill="#35202e"/>
+              <circle cx="80.5" cy="58.4" r="1.6" fill="#ffffff"/>
+              <circle cx="114" cy="60" r="4.6" fill="#35202e"/>
+              <circle cx="112.5" cy="58.4" r="1.6" fill="#ffffff"/>
+              <path d="M91 71 Q98 77 105 71" fill="none" stroke="#355e4c" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          `
+        },
+        {
+          id: 'custom',
+          title: 'یه چیز دیگه توی ذهنمه! 💗',
+          desc: 'مدلی که توی گزینه‌ها نیست!',
+          svg: `
+            <svg viewBox="0 0 200 150" class="w-full h-full" aria-hidden="true">
+              <defs>
+                <linearGradient id="plushBgCustom" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#fff0f7"/>
+                  <stop offset="100%" stop-color="#f2e7ff"/>
+                </linearGradient>
+              </defs>
+              <rect width="200" height="150" fill="url(#plushBgCustom)"/>
+              <path d="M37 32 L39 37 L44 39 L39 41 L37 46 L35 41 L30 39 L35 37 Z" fill="#ebd084"/>
+              <path d="M162 28 L164 33 L169 35 L164 37 L162 42 L160 37 L155 35 L160 33 Z" fill="#ec6b9e" opacity="0.75"/>
+              <ellipse cx="100" cy="136" rx="44" ry="6.5" fill="#7a495c" opacity="0.09"/>
+              <!-- ابر و بالش عروسکی رویایی با دوخت ظریف -->
+              <circle cx="72" cy="48" r="15" fill="#ffd9ea" stroke="#ec8ab3" stroke-width="2" stroke-dasharray="3.5 2.5"/>
+              <circle cx="128" cy="48" r="15" fill="#ffd9ea" stroke="#ec8ab3" stroke-width="2" stroke-dasharray="3.5 2.5"/>
+              <rect x="52" y="46" width="96" height="78" rx="38" fill="#fff7fb" stroke="#ec8ab3" stroke-width="2.2"/>
+              <rect x="59" y="53" width="82" height="64" rx="31" fill="#ffeaf3" stroke="#f4abc4" stroke-width="1.4" stroke-dasharray="4 3"/>
+              <!-- پاپیون هدیه بالای کارت -->
+              <path d="M100 47 L85 37 L87 53 Z" fill="#ec6b9e"/>
+              <path d="M100 47 L115 37 L113 53 Z" fill="#ec6b9e"/>
+              <circle cx="100" cy="47" r="4.5" fill="#f8bbd0" stroke="#ec6b9e" stroke-width="1.5"/>
+              <!-- قلب مرکزی با علامت سؤال فانتزی -->
+              <path d="M100 107 C100 107 75 91 75 75 C75 66 82 61 89 61 C95 61 98 65 100 68 C102 65 105 61 111 61 C118 61 125 66 125 75 C125 91 100 107 100 107 Z" fill="#ec6b9e"/>
+              <text x="100" y="90" text-anchor="middle" fill="#ffffff" font-size="24" font-weight="800" font-family="Vazirmatn, sans-serif">؟</text>
+            </svg>
+          `
+        }
+      ]
+    };
+
+    // ==========================================
+    // توابع کمکی ارقام فارسی و اعلان شناور (Toast)
+    // ==========================================
+    function toPersianDigits(val) {
+      const persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+      return String(val).replace(/\d/g, d => persian[Number(d)]);
+    }
+
+    function normalizeDigitsToEnglish(str) {
+      return String(str)
+        .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+        .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+        .trim();
+    }
+
+    let toastTimer = null;
+    function showToast(message, icon = '✨') {
+      const box = document.getElementById('toastBox');
+      document.getElementById('toastText').textContent = message;
+      document.getElementById('toastIcon').textContent = icon;
+      box.classList.remove('opacity-0', 'translate-y-4');
+      box.classList.add('opacity-100', 'translate-y-0');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        box.classList.add('opacity-0', 'translate-y-4');
+        box.classList.remove('opacity-100', 'translate-y-0');
+      }, 3400);
+    }
+
+    // ==========================================
+    // آسمان پرستاره تعاملی (Canvas 60fps سبک)
+    // ==========================================
+    const starCanvas = document.getElementById('starfield');
+    const starCtx = starCanvas.getContext('2d');
+    let stars = [];
+    let shootingStar = null;
+
+    function resizeStarCanvas() {
+      starCanvas.width = window.innerWidth;
+      starCanvas.height = window.innerHeight;
+      const count = Math.min(130, Math.floor((starCanvas.width * starCanvas.height) / 9500));
+      stars = Array.from({ length: count }, () => ({
+        x: Math.random() * starCanvas.width,
+        y: Math.random() * starCanvas.height,
+        r: Math.random() * 1.6 + 0.4,
+        alpha: Math.random(),
+        speed: (Math.random() * 0.015 + 0.004) * (Math.random() < 0.5 ? 1 : -1),
+        tint: Math.random() > 0.82 ? '#ebd084' : (Math.random() > 0.85 ? '#f49cbb' : '#ffffff')
+      }));
+    }
+
+    function animateStarfield() {
+      starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+
+      for (const s of stars) {
+        s.alpha += s.speed;
+        if (s.alpha <= 0.18 || s.alpha >= 0.98) s.speed *= -1;
+        starCtx.globalAlpha = Math.max(0.15, Math.min(1, s.alpha));
+        starCtx.fillStyle = s.tint;
+        starCtx.beginPath();
+        starCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        starCtx.fill();
+      }
+
+      // شهاب‌سنگ تصادفی ملایم در آسمان
+      if (!shootingStar && Math.random() < 0.004) {
+        shootingStar = {
+          x: Math.random() * starCanvas.width * 0.8,
+          y: Math.random() * starCanvas.height * 0.35,
+          len: 65,
+          vx: 6,
+          vy: 3.2,
+          life: 1
+        };
+      }
+      if (shootingStar) {
+        starCtx.save();
+        starCtx.globalAlpha = shootingStar.life;
+        const grad = starCtx.createLinearGradient(
+          shootingStar.x, shootingStar.y,
+          shootingStar.x - shootingStar.len, shootingStar.y - shootingStar.len * 0.5
+        );
+        grad.addColorStop(0, '#ebd084');
+        grad.addColorStop(1, 'transparent');
+        starCtx.strokeStyle = grad;
+        starCtx.lineWidth = 1.8;
+        starCtx.beginPath();
+        starCtx.moveTo(shootingStar.x, shootingStar.y);
+        starCtx.lineTo(shootingStar.x - shootingStar.len, shootingStar.y - shootingStar.len * 0.53);
+        starCtx.stroke();
+        starCtx.restore();
+
+        shootingStar.x += shootingStar.vx;
+        shootingStar.y += shootingStar.vy;
+        shootingStar.life -= 0.028;
+        if (shootingStar.life <= 0) shootingStar = null;
+      }
+
+      starCtx.globalAlpha = 1;
+      requestAnimationFrame(animateStarfield);
+    }
+
+    // ==========================================
+    // جعبه موسیقی ملایم Web Audio API و افکت صدای فوت شمع
+    // ==========================================
+    let audioCtx = null;
+    let isMusicPlaying = false;
+    let musicLoopTimer = null;
+    let melodyStep = 0;
+
+    const MUSIC_BOX_NOTES = [
+      523.25, 659.25, 783.99, 987.77,
+      440.00, 523.25, 659.25, 880.00,
+      349.23, 440.00, 523.25, 698.46,
+      392.00, 493.88, 587.33, 783.99
+    ];
+
+    function ensureAudioContext() {
+      try {
+        if (!audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (AudioContextClass) audioCtx = new AudioContextClass();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      } catch (err) {
+        // در صورت محدودیت مرورگر بدون خطا ادامه می‌دهد
+      }
+    }
+
+    function playBellNote(freq, duration = 1.35, volume = 0.055, delay = 0) {
+      ensureAudioContext();
+      if (!audioCtx) return;
+      try {
+        const now = audioCtx.currentTime + delay;
+        const osc = audioCtx.createOscillator();
+        const overtone = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+
+        overtone.type = 'triangle';
+        overtone.frequency.setValueAtTime(freq * 2, now);
+
+        const overtoneGain = audioCtx.createGain();
+        overtoneGain.gain.setValueAtTime(0.12, now);
+
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(volume, now + 0.025);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        osc.connect(gain);
+        overtone.connect(overtoneGain);
+        overtoneGain.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(now);
+        overtone.start(now);
+        osc.stop(now + duration + 0.05);
+        overtone.stop(now + duration + 0.05);
+      } catch (e) {}
+    }
+
+    function playBlowPuffSound() {
+      ensureAudioContext();
+      if (!audioCtx) return;
+      try {
+        const duration = 0.32;
+        const now = audioCtx.currentTime;
+        const bufferSize = Math.floor(audioCtx.sampleRate * duration);
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
+        }
+
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(520, now);
+        filter.frequency.exponentialRampToValueAtTime(180, now + duration);
+        filter.Q.setValueAtTime(0.9, now);
+
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.exponentialRampToValueAtTime(0.11, now + 0.045);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        noise.start(now);
+        noise.stop(now + duration + 0.02);
+      } catch (e) {}
+    }
+
+    function playSparkleChime(notes = [587.33, 783.99, 987.77, 1174.66]) {
+      ensureAudioContext();
+      notes.forEach((f, idx) => playBellNote(f, 0.9, 0.07, idx * 0.09));
+    }
+
+    function startBackgroundMusic() {
+      ensureAudioContext();
+      if (isMusicPlaying) return;
+      isMusicPlaying = true;
+      updateMusicUI();
+
+      if (musicLoopTimer) {
+        clearInterval(musicLoopTimer);
+        musicLoopTimer = null;
+      }
+
+      playBellNote(MUSIC_BOX_NOTES[melodyStep % MUSIC_BOX_NOTES.length], 1.6, 0.05);
+      melodyStep++;
+
+      musicLoopTimer = setInterval(() => {
+        if (!isMusicPlaying || document.hidden) return;
+        const freq = MUSIC_BOX_NOTES[melodyStep % MUSIC_BOX_NOTES.length];
+        playBellNote(freq, 1.65, 0.048);
+        melodyStep++;
+      }, 620);
+    }
+
+    function stopBackgroundMusic() {
+      isMusicPlaying = false;
+      if (musicLoopTimer) {
+        clearInterval(musicLoopTimer);
+        musicLoopTimer = null;
+      }
+      updateMusicUI();
+    }
+
+    function toggleBackgroundMusic() {
+      if (isMusicPlaying) {
+        stopBackgroundMusic();
+        showToast('ملودی متوقف شد', '🔇');
+      } else {
+        startBackgroundMusic();
+        showToast('ملودی جعبه موزیکال روشن شد', '🎵');
+      }
+    }
+
+    function updateMusicUI() {
+      const eq = document.getElementById('musicEq');
+      const icon = document.getElementById('musicStatusIcon');
+      if (isMusicPlaying) {
+        if (eq) eq.classList.add('wave-active');
+        if (icon) icon.textContent = '🎵';
+      } else {
+        if (eq) eq.classList.remove('wave-active');
+        if (icon) icon.textContent = '🔇';
+      }
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (!audioCtx) return;
+      try {
+        if (document.hidden) {
+          if (audioCtx.state === 'running') {
+            audioCtx.suspend();
+          }
+        } else if (isMusicPlaying && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      } catch (e) {}
+    });
+
+    // ==========================================
+    // ۱. باز کردن پاکت اول + افکت تایپ بدون تکرار نشانگر + ویس واقعی
+    // ==========================================
+    let introOpened = false;
+    let typewriterTimer = null;
+
+    function openIntroEnvelope() {
+      if (introOpened) return;
+      introOpened = true;
+
+      const env = document.getElementById('introEnvelope');
+      const letterPreview = document.getElementById('envelopeLetterPreview');
+      if (env) {
+        env.classList.remove('animate-float');
+        env.classList.add('envelope-open');
+      }
+
+      setTimeout(() => {
+        if (letterPreview) {
+          letterPreview.classList.remove('z-10');
+          letterPreview.classList.add('z-30');
+        }
+      }, 350);
+
+      startBackgroundMusic();
+      playSparkleChime([523.25, 659.25, 783.99, 1046.5]);
+
+      setTimeout(() => {
+        const introGate = document.getElementById('introGate');
+        if (introGate) {
+          introGate.style.opacity = '0';
+          introGate.style.transform = 'scale(0.96)';
+        }
+
+        setTimeout(() => {
+          if (introGate) introGate.classList.add('hidden');
+          const main = document.getElementById('mainJourney');
+          if (main) main.classList.remove('hidden');
+
+          const topNav = document.getElementById('topNav');
+          if (topNav) {
+            topNav.classList.remove('opacity-0', '-translate-y-6', 'pointer-events-none');
+          }
+
+          window.scrollTo({ top: 0, behavior: 'instant' });
+          startWelcomeTypewriter();
+        }, 480);
+      }, 1400);
+    }
+
+    function splitGraphemes(str) {
+      if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+        const segmenter = new Intl.Segmenter('fa', { granularity: 'grapheme' });
+        return Array.from(segmenter.segment(str), s => s.segment);
+      }
+      return Array.from(str);
+    }
+
+    function startWelcomeTypewriter() {
+      const target = document.getElementById('welcomeTypedText');
+      const cursor = document.getElementById('welcomeCursor');
+      const fullText = SITE_CONFIG.welcomeMessage;
+      const chars = splitGraphemes(fullText);
+
+      if (typewriterTimer) clearTimeout(typewriterTimer);
+      target.textContent = '';
+      cursor.style.display = 'inline-block';
+
+      let idx = 0;
+      function step() {
+        if (idx < chars.length) {
+          target.textContent += chars[idx];
+          idx++;
+          typewriterTimer = setTimeout(step, 34);
+        }
+      }
+      step();
+    }
+
+    function replayWelcomeTypewriter() {
+      startWelcomeTypewriter();
+    }
+
+    // پخش‌کننده واقعی ویس خوشامدگویی اشکان (متصل به voice/voice.mp3 همراه با قابلیت عقب و جلو بردن)
+    let voiceAudio = null;
+    let voiceHasEnded = false;
+    let voiceIsPendingPlay = false;
+    let voiceUserInitiatedPlay = false;
+    let voiceIsSeeking = false;
+    let voicePendingSeekTime = null;
+    let voiceControlsBound = false;
+
+    function buildVoiceWaveform() {
+      const container = document.getElementById('voiceWaveform');
+      if (!container) return;
+      const heights = [35, 65, 45, 85, 55, 95, 70, 40, 80, 100, 60, 75, 50, 90, 65, 45, 85, 70, 55, 95, 60, 40, 75, 50, 35, 65, 80, 45];
+      container.innerHTML = heights
+        .map((h, i) => `<span data-bar="${i}" class="flex-1 rounded-full bg-[#b5446b]/35 transition-all duration-200 pointer-events-none" style="height:${h}%"></span>`)
+        .join('');
+    }
+
+    function getVoiceDuration() {
+      if (voiceAudio && Number.isFinite(voiceAudio.duration) && voiceAudio.duration > 0) {
+        return voiceAudio.duration;
+      }
+      return SITE_CONFIG.voiceFallbackDuration;
+    }
+
+    function formatVoiceTime(seconds, useRound = false) {
+      const safeSec = Number.isFinite(seconds) && seconds > 0 ? seconds : 0;
+      const totalSeconds = useRound ? Math.round(safeSec) : Math.floor(safeSec);
+      const mins = Math.floor(totalSeconds / 60);
+      const secs = totalSeconds % 60;
+      return toPersianDigits(`${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`);
+    }
+
+    function setVoiceButtonPlayingState(isPlaying) {
+      const btnIcon = document.getElementById('voiceBtnIcon');
+      const btn = document.getElementById('voiceNoteBtn');
+      if (!btnIcon) return;
+
+      if (isPlaying) {
+        btnIcon.textContent = '❚❚';
+        btnIcon.classList.remove('mr-[-2px]');
+        if (btn) btn.setAttribute('aria-label', 'توقف موقت صدای اشکان');
+      } else {
+        btnIcon.textContent = '▶';
+        btnIcon.classList.add('mr-[-2px]');
+        if (btn) btn.setAttribute('aria-label', 'پخش صدای اشکان');
+      }
+    }
+
+    function updateVoiceTimerUI(elapsedSeconds, totalSeconds, forceCompleted = false) {
+      const timerEl = document.getElementById('voiceTimer');
+      if (!timerEl) return;
+      const totalFormatted = formatVoiceTime(totalSeconds, true);
+      const elapsedFormatted = forceCompleted
+        ? totalFormatted
+        : formatVoiceTime(Math.min(Math.max(0, elapsedSeconds), totalSeconds), false);
+      timerEl.textContent = `${elapsedFormatted} / ${totalFormatted}`;
+    }
+
+    function updateVoiceWaveformUI(progress) {
+      const bars = document.querySelectorAll('#voiceWaveform span');
+      if (!bars.length) return;
+      const clamped = Number.isFinite(progress) ? Math.max(0, Math.min(1, progress)) : 0;
+      const activeCount = clamped <= 0 ? 0 : (clamped >= 1 ? bars.length : Math.round(clamped * bars.length));
+
+      bars.forEach((bar, i) => {
+        const isActive = i < activeCount;
+        bar.classList.toggle('bg-[#b5446b]', isActive);
+        bar.classList.toggle('bg-[#b5446b]/35', !isActive);
+      });
+    }
+
+    function updateVoiceSliderUI(currentSeconds, totalSeconds) {
+      const slider = document.getElementById('voiceSeekSlider');
+      if (!slider) return;
+      const safeTotal = Number.isFinite(totalSeconds) && totalSeconds > 0 ? totalSeconds : SITE_CONFIG.voiceFallbackDuration;
+      const clamped = Math.max(0, Math.min(safeTotal, Number.isFinite(currentSeconds) ? currentSeconds : 0));
+      const pct = safeTotal > 0 ? (clamped / safeTotal) * 100 : 0;
+
+      slider.max = String(safeTotal);
+      slider.value = String(clamped);
+      slider.style.setProperty('--voice-progress', `${pct.toFixed(2)}%`);
+      slider.setAttribute('aria-valuemin', '0');
+      slider.setAttribute('aria-valuemax', String(Math.round(safeTotal)));
+      slider.setAttribute('aria-valuenow', String(Math.round(clamped)));
+      slider.setAttribute('aria-valuetext', `${formatVoiceTime(clamped, false)} از ${formatVoiceTime(safeTotal, true)}`);
+    }
+
+    function previewVoiceSeekUI(targetSeconds) {
+      const duration = getVoiceDuration();
+      const clamped = Math.max(0, Math.min(duration, Number.isFinite(targetSeconds) ? targetSeconds : 0));
+      const reachedEnd = duration > 0 && clamped >= duration;
+      updateVoiceTimerUI(clamped, duration, reachedEnd);
+      updateVoiceWaveformUI(duration > 0 ? clamped / duration : 0);
+      updateVoiceSliderUI(clamped, duration);
+    }
+
+    function commitVoiceSeek(targetSeconds) {
+      if (!voiceAudio) {
+        initVoicePlayer();
+      }
+      const duration = getVoiceDuration();
+      const clamped = Math.max(0, Math.min(duration, Number.isFinite(targetSeconds) ? targetSeconds : 0));
+
+      if (clamped < duration - 0.05) {
+        voiceHasEnded = false;
+      }
+
+      previewVoiceSeekUI(clamped);
+
+      if (!voiceAudio) return;
+
+      if (voiceAudio.readyState >= 1) {
+        try {
+          voiceAudio.currentTime = clamped;
+          voicePendingSeekTime = null;
+        } catch (e) {
+          voicePendingSeekTime = clamped;
+        }
+      } else {
+        voicePendingSeekTime = clamped;
+        if (!voiceAudio.error) {
+          try {
+            voiceAudio.load();
+          } catch (e) {}
+        }
+      }
+    }
+
+    function syncVoiceUIFromActualTime() {
+      const duration = getVoiceDuration();
+      let actualCurrent = 0;
+      if (voiceHasEnded) {
+        actualCurrent = duration;
+      } else if (voicePendingSeekTime !== null) {
+        actualCurrent = Math.max(0, Math.min(duration, voicePendingSeekTime));
+      } else if (voiceAudio && Number.isFinite(voiceAudio.currentTime)) {
+        actualCurrent = Math.max(0, Math.min(duration, voiceAudio.currentTime));
+      }
+      updateVoiceTimerUI(actualCurrent, duration, voiceHasEnded);
+      updateVoiceWaveformUI(duration > 0 ? actualCurrent / duration : 0);
+      updateVoiceSliderUI(actualCurrent, duration);
+    }
+
+    function bindVoiceSeekControls() {
+      if (voiceControlsBound) return;
+      voiceControlsBound = true;
+
+      const slider = document.getElementById('voiceSeekSlider');
+      const waveform = document.getElementById('voiceWaveform');
+      let sliderScrubbing = false;
+      let waveformDragging = false;
+
+      if (slider) {
+        const startSliderScrub = () => {
+          sliderScrubbing = true;
+          voiceIsSeeking = true;
+        };
+
+        slider.addEventListener('pointerdown', startSliderScrub);
+        slider.addEventListener('mousedown', startSliderScrub);
+        slider.addEventListener('touchstart', startSliderScrub, { passive: true });
+
+        slider.addEventListener('input', () => {
+          const val = parseFloat(slider.value);
+          const target = Number.isFinite(val) ? val : 0;
+          if (sliderScrubbing) {
+            previewVoiceSeekUI(target);
+          } else {
+            commitVoiceSeek(target);
+          }
+        });
+
+        slider.addEventListener('change', () => {
+          const val = parseFloat(slider.value);
+          sliderScrubbing = false;
+          voiceIsSeeking = waveformDragging;
+          commitVoiceSeek(Number.isFinite(val) ? val : 0);
+        });
+
+        slider.addEventListener('keydown', e => {
+          const duration = getVoiceDuration();
+          const current = parseFloat(slider.value) || 0;
+          let next = null;
+          if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+            next = Math.min(duration, current + 5);
+          } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+            next = Math.max(0, current - 5);
+          } else if (e.key === 'Home') {
+            next = 0;
+          } else if (e.key === 'End') {
+            next = duration;
+          }
+          if (next !== null) {
+            e.preventDefault();
+            sliderScrubbing = false;
+            voiceIsSeeking = waveformDragging;
+            commitVoiceSeek(next);
+          }
+        });
+
+        const finishSliderScrub = () => {
+          if (!sliderScrubbing) return;
+          sliderScrubbing = false;
+          voiceIsSeeking = waveformDragging;
+          const val = parseFloat(slider.value);
+          commitVoiceSeek(Number.isFinite(val) ? val : 0);
+        };
+
+        const cancelSliderScrub = () => {
+          if (!sliderScrubbing) return;
+          sliderScrubbing = false;
+          voiceIsSeeking = waveformDragging;
+          syncVoiceUIFromActualTime();
+        };
+
+        slider.addEventListener('pointercancel', cancelSliderScrub);
+        window.addEventListener('pointerup', finishSliderScrub);
+        window.addEventListener('touchend', finishSliderScrub);
+        window.addEventListener('pointercancel', cancelSliderScrub);
+        window.addEventListener('touchcancel', cancelSliderScrub);
+      }
+
+      if (waveform) {
+        const getWaveformTimeFromClientX = clientX => {
+          const rect = waveform.getBoundingClientRect();
+          if (!rect || rect.width <= 0) return 0;
+          const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+          return ratio * getVoiceDuration();
+        };
+
+        waveform.addEventListener('pointerdown', e => {
+          if (e.button !== undefined && e.button !== 0) return;
+          waveformDragging = true;
+          voiceIsSeeking = true;
+          if (waveform.setPointerCapture && e.pointerId !== undefined) {
+            try {
+              waveform.setPointerCapture(e.pointerId);
+            } catch (err) {}
+          }
+          if (Number.isFinite(e.clientX)) {
+            previewVoiceSeekUI(getWaveformTimeFromClientX(e.clientX));
+          }
+        });
+
+        waveform.addEventListener('pointermove', e => {
+          if (!waveformDragging) return;
+          if (Number.isFinite(e.clientX)) {
+            previewVoiceSeekUI(getWaveformTimeFromClientX(e.clientX));
+          }
+        });
+
+        const commitWaveformDrag = e => {
+          if (!waveformDragging) return;
+          waveformDragging = false;
+          voiceIsSeeking = sliderScrubbing;
+          if (waveform.releasePointerCapture && e && e.pointerId !== undefined) {
+            try {
+              if (!waveform.hasPointerCapture || waveform.hasPointerCapture(e.pointerId)) {
+                waveform.releasePointerCapture(e.pointerId);
+              }
+            } catch (err) {}
+          }
+          if (e && Number.isFinite(e.clientX)) {
+            commitVoiceSeek(getWaveformTimeFromClientX(e.clientX));
+          } else {
+            syncVoiceUIFromActualTime();
+          }
+        };
+
+        const cancelWaveformDrag = e => {
+          if (!waveformDragging) return;
+          waveformDragging = false;
+          voiceIsSeeking = sliderScrubbing;
+          if (waveform.releasePointerCapture && e && e.pointerId !== undefined) {
+            try {
+              if (!waveform.hasPointerCapture || waveform.hasPointerCapture(e.pointerId)) {
+                waveform.releasePointerCapture(e.pointerId);
+              }
+            } catch (err) {}
+          }
+          syncVoiceUIFromActualTime();
+        };
+
+        waveform.addEventListener('pointerup', commitWaveformDrag);
+        waveform.addEventListener('pointercancel', cancelWaveformDrag);
+      }
+    }
+
+    function handleVoicePlaybackError(err) {
+      voiceIsPendingPlay = false;
+      setVoiceButtonPlayingState(false);
+      if (err && err.name === 'AbortError') return;
+      if (voiceUserInitiatedPlay) {
+        voiceUserInitiatedPlay = false;
+        showToast('فایل صوتی پیدا نشد یا قابل پخش نیست؛ دوباره تلاش کن 🎙️', '⚠️');
+      }
+    }
+
+    function initVoicePlayer() {
+      bindVoiceSeekControls();
+      if (voiceAudio) return;
+
+      try {
+        voiceAudio = new Audio(SITE_CONFIG.voiceSrc);
+        voiceAudio.preload = 'metadata';
+      } catch (err) {
+        voiceAudio = null;
+        return;
+      }
+
+      const initialDuration = getVoiceDuration();
+      setVoiceButtonPlayingState(false);
+      updateVoiceTimerUI(0, initialDuration, false);
+      updateVoiceWaveformUI(0);
+      updateVoiceSliderUI(0, initialDuration);
+
+      voiceAudio.addEventListener('loadedmetadata', () => {
+        const duration = getVoiceDuration();
+        if (voicePendingSeekTime !== null) {
+          try {
+            const target = Math.min(voicePendingSeekTime, duration);
+            voiceAudio.currentTime = target;
+            voicePendingSeekTime = null;
+          } catch (e) {}
+        }
+        if (voiceIsSeeking) return;
+        const current = voiceHasEnded
+          ? duration
+          : (voicePendingSeekTime !== null ? voicePendingSeekTime : (voiceAudio.currentTime || 0));
+        updateVoiceTimerUI(current, duration, voiceHasEnded);
+        updateVoiceWaveformUI(duration > 0 ? current / duration : 0);
+        updateVoiceSliderUI(current, duration);
+      });
+
+      voiceAudio.addEventListener('timeupdate', () => {
+        if (voiceHasEnded || voiceIsSeeking) return;
+        const duration = getVoiceDuration();
+        const current = voiceAudio.currentTime || 0;
+        updateVoiceTimerUI(current, duration, false);
+        updateVoiceWaveformUI(duration > 0 ? current / duration : 0);
+        updateVoiceSliderUI(current, duration);
+      });
+
+      voiceAudio.addEventListener('play', () => {
+        voiceHasEnded = false;
+        setVoiceButtonPlayingState(true);
+      });
+
+      voiceAudio.addEventListener('pause', () => {
+        if (!voiceAudio.ended) {
+          setVoiceButtonPlayingState(false);
+        }
+      });
+
+      voiceAudio.addEventListener('ended', () => {
+        voiceHasEnded = true;
+        voiceIsPendingPlay = false;
+        voiceUserInitiatedPlay = false;
+        voiceIsSeeking = false;
+        voicePendingSeekTime = null;
+        setVoiceButtonPlayingState(false);
+        const duration = getVoiceDuration();
+        updateVoiceTimerUI(duration, duration, true);
+        updateVoiceWaveformUI(1);
+        updateVoiceSliderUI(duration, duration);
+      });
+
+      voiceAudio.addEventListener('error', () => {
+        handleVoicePlaybackError(null);
+      });
+    }
+
+    function toggleVoiceWelcome() {
+      if (!voiceAudio) {
+        initVoicePlayer();
+      }
+      if (!voiceAudio) {
+        showToast('فایل صوتی پیدا نشد یا قابل پخش نیست؛ دوباره تلاش کن 🎙️', '⚠️');
+        return;
+      }
+
+      if (voiceIsPendingPlay) return;
+
+      // حالت پخش: توقف موقت در همان ثانیه فعلی بدون ریست شدن
+      if (!voiceAudio.paused) {
+        voiceUserInitiatedPlay = false;
+        voiceAudio.pause();
+        setVoiceButtonPlayingState(false);
+        return;
+      }
+
+      // حالت شروع یا ادامه پخش پس از کلیک کاربر
+      voiceIsPendingPlay = true;
+      voiceUserInitiatedPlay = true;
+
+      if (voiceAudio.error) {
+        voiceAudio.load();
+      }
+
+      // اگر قبلاً به پایان رسیده بود و کاربر زمان را به عقب نبرده، بازگشت به ثانیه صفر
+      if ((voiceHasEnded || voiceAudio.ended) && voicePendingSeekTime === null) {
+        voiceHasEnded = false;
+        try {
+          voiceAudio.currentTime = 0;
+        } catch (e) {}
+        const duration = getVoiceDuration();
+        updateVoiceTimerUI(0, duration, false);
+        updateVoiceWaveformUI(0);
+        updateVoiceSliderUI(0, duration);
+      } else if (voicePendingSeekTime !== null && voiceAudio.readyState >= 1) {
+        try {
+          voiceAudio.currentTime = Math.min(voicePendingSeekTime, getVoiceDuration());
+          voicePendingSeekTime = null;
+        } catch (e) {}
+      }
+
+      try {
+        const playPromise = voiceAudio.play();
+        if (playPromise && typeof playPromise.then === 'function') {
+          playPromise
+            .then(() => {
+              voiceIsPendingPlay = false;
+              voiceUserInitiatedPlay = false;
+              setVoiceButtonPlayingState(true);
+            })
+            .catch(err => {
+              handleVoicePlaybackError(err);
+            });
+        } else {
+          voiceIsPendingPlay = false;
+          voiceUserInitiatedPlay = false;
+        }
+      } catch (err) {
+        handleVoicePlaybackError(err);
+      }
+    }
+
+    // ==========================================
+    // ۲. شمارنده زنده روزهای آشنایی + ستاره‌های مخفی
+    // ==========================================
+    function updateRelationshipCounter() {
+      const start = new Date(SITE_CONFIG.relationshipStartISO).getTime();
+      const now = Date.now();
+      const diff = Math.max(0, now - start);
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('cntDays').textContent = toPersianDigits(days);
+      document.getElementById('cntHours').textContent = toPersianDigits(String(hours).padStart(2, '0'));
+      document.getElementById('cntMinutes').textContent = toPersianDigits(String(minutes).padStart(2, '0'));
+      document.getElementById('cntSeconds').textContent = toPersianDigits(String(seconds).padStart(2, '0'));
+    }
+
+    const foundStars = new Set();
+
+    function discoverSecretStar(id) {
+      const starData = SITE_CONFIG.secretStars[id];
+      if (!starData) return;
+
+      const isNew = !foundStars.has(id);
+      foundStars.add(id);
+
+      const btn = document.getElementById(`secretStar${id}`);
+      if (btn) btn.classList.add('secret-star-found');
+
+      document.getElementById('secretCounterBadge').textContent = `${toPersianDigits(foundStars.size)}/۲`;
+      playSparkleChime([659.25, 880, 1174.66, 1318.5]);
+
+      openModal(`
+        <div class="text-center py-2">
+          <div class="w-14 h-14 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-3xl mx-auto mb-3">🌟</div>
+          <h3 class="text-xl font-extrabold text-inkDark mb-3">${starData.title}</h3>
+          <p class="text-sm sm:text-base text-inkDark/85 leading-8 mb-5">${starData.body}</p>
+          <div class="text-xs font-bold text-rose-700 bg-rose-100/80 inline-block px-4 py-1.5 rounded-full">
+            ${foundStars.size === 2 ? '🎉 آفرین قشنگمم هر 2 ستاره رو کشف کردیی 🤩' : `ستاره‌های کشف‌شده: ${toPersianDigits(foundStars.size)} از ۲`}
+          </div>
+        </div>
+      `);
+
+      if (isNew && foundStars.size === 2) {
+        triggerConfettiBurst(55);
+      }
+    }
+
+    function showSecretStarsHint() {
+      if (foundStars.size === 2) {
+        showToast('🎉 آفرین قشنگمم هر 2 ستاره رو کشف کردیی 🤩', '🌟');
+      } else {
+        showToast(`بین بخش‌های سایت ۲ ستاره چشمک‌زن قایم شده (${toPersianDigits(foundStars.size)} از ۲ پیدا شده)`, '🌟');
+      }
+    }
+
+    // ==========================================
+    // ۳. آلبوم خاطرات پولاروید (چیدمان متقارن ۳ کارتی در تبلت و دسکتاپ)
+    // ==========================================
+    function renderPolaroids() {
+      const grid = document.getElementById('polaroidGrid');
+      grid.innerHTML = SITE_CONFIG.memories
+        .map((m, idx) => `
+          <article
+            onclick="openMemoryModal(${idx})"
+            role="button"
+            tabindex="0"
+            onkeydown="if(event.key==='Enter') openMemoryModal(${idx})"
+            class="paper-sheet rounded-2xl p-3.5 pb-5 cursor-pointer transform ${m.rotation} hover:rotate-0 hover:-translate-y-1.5 transition duration-300 relative group w-full sm:last:col-span-2 sm:last:w-[calc(50%-0.75rem)] sm:last:mx-auto lg:last:col-span-1 lg:last:w-full"
+          >
+            <!-- چسب کاغذی بالای عکس -->
+            <div class="w-16 h-4 bg-amber-200/70 border border-amber-300/50 -mt-5 mx-auto mb-2.5 rounded-sm rotate-1 shadow-sm"></div>
+
+            <!-- قاب تصویر پولاروید با نسبت ۴:۳ ثابت -->
+            <div class="w-full aspect-[4/3] rounded-xl overflow-hidden relative bg-[#f3ead8]">
+              <img
+                src="${m.image}"
+                alt="${m.title}"
+                loading="lazy"
+                decoding="async"
+                onerror="this.onerror=null; this.style.opacity='0';"
+                class="w-full h-full object-cover rounded-xl block"
+              />
+              <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition pointer-events-none"></div>
+            </div>
+
+            <div class="mt-3.5 text-right px-1">
+              <span class="text-[11px] font-semibold text-rose-700">${m.date}</span>
+              <h3 class="font-bold text-inkDark text-base mt-0.5 group-hover:text-rose-800 transition">${m.title}</h3>
+              <p class="text-xs text-inkDark/65 mt-1 flex items-center justify-between">
+                <span>لمس کن تا روایتش رو بخونی...</span>
+                <span class="text-rose-600 font-bold">←</span>
+              </p>
+            </div>
+          </article>
+        `)
+        .join('');
+    }
+
+    function openMemoryModal(index) {
+      const m = SITE_CONFIG.memories[index];
+      if (!m) return;
+      const prevIdx = (index - 1 + SITE_CONFIG.memories.length) % SITE_CONFIG.memories.length;
+      const nextIdx = (index + 1) % SITE_CONFIG.memories.length;
+
+      playBellNote(659.25, 0.8, 0.045);
+
+      openModal(`
+        <div>
+          <div class="w-full aspect-[16/10] rounded-2xl overflow-hidden mb-5 shadow-inner bg-[#f3ead8]">
+            <img
+              src="${m.image}"
+              alt="${m.title}"
+              decoding="async"
+              onerror="this.onerror=null; this.style.opacity='0';"
+              class="w-full h-full object-cover rounded-2xl block"
+            />
+          </div>
+          <span class="inline-block text-xs font-bold text-rose-700 bg-rose-100 px-3 py-1 rounded-full mb-2">${m.date}</span>
+          <h3 class="text-xl font-extrabold text-inkDark mb-3">${m.title}</h3>
+          <p class="text-sm sm:text-base text-inkDark/90 leading-8 bg-amber-50/70 border border-amber-200/70 rounded-2xl p-4">
+            «${m.story}»
+          </p>
+          <div class="flex items-center justify-between mt-5 pt-3 border-t border-amber-900/10 text-xs font-bold text-inkDark/75">
+            <button type="button" onclick="openMemoryModal(${prevIdx})" class="hover:text-rose-700 px-2 py-1">→ خاطره قبلی</button>
+            <span>${toPersianDigits(index + 1)} از ${toPersianDigits(SITE_CONFIG.memories.length)}</span>
+            <button type="button" onclick="openMemoryModal(${nextIdx})" class="hover:text-rose-700 px-2 py-1">خاطره بعدی ←</button>
+          </div>
+        </div>
+      `);
+    }
+
+    // ==========================================
+    // ۴. کارت‌های چرخشی ویژگی‌های دوست‌داشتنی (بدون پرش در iOS Safari)
+    // ==========================================
+    let allFlipped = false;
+
+    function renderTraits() {
+      const grid = document.getElementById('traitsGrid');
+      grid.innerHTML = SITE_CONFIG.traits
+        .map((t, idx) => `
+          <div
+            onclick="this.classList.toggle('flipped'); playBellNote(523.25 + ${idx * 45}, 0.65, 0.035);"
+            role="button"
+            tabindex="0"
+            onkeydown="if(event.key==='Enter') this.classList.toggle('flipped')"
+            class="flip-card cursor-pointer select-none"
+          >
+            <div class="flip-inner">
+              <!-- روی کارت (بدون backdrop-filter برای سازگاری کامل سه‌بعدی در Safari) -->
+              <div class="flip-front border border-starGold/30 hover:border-starGold/60 transition">
+                <span class="text-[11px] font-bold text-starGold/70 mb-1">${toPersianDigits(String(idx + 1).padStart(2, '0'))}</span>
+                <span class="text-3xl mb-2">${t.emoji}</span>
+                <span class="text-sm font-bold text-white">${t.front}</span>
+                <span class="text-[10px] text-purple-200/60 mt-2">لمس کن ✨</span>
+              </div>
+              <!-- پشت کارت -->
+              <div class="flip-back paper-sheet border-2 border-roseGlow">
+                <span class="text-xl mb-1">${t.emoji}</span>
+                <p class="text-xs sm:text-[13px] font-bold text-inkDark leading-relaxed">${t.back}</p>
+              </div>
+            </div>
+          </div>
+        `)
+        .join('');
+    }
+
+    function flipAllTraitCards() {
+      allFlipped = !allFlipped;
+      document.querySelectorAll('#traitsGrid .flip-card').forEach(card => {
+        card.classList.toggle('flipped', allFlipped);
+      });
+      playSparkleChime([523.25, 659.25, 783.99]);
+    }
+
+    // ==========================================
+    // ۵. پاکت‌های «باز کن وقتی...» (چیدمان متقارن ۳ کارتی و کاغذ خط‌دار تراز)
+    // ==========================================
+    function renderOpenWhenEnvelopes() {
+      const grid = document.getElementById('openWhenGrid');
+      grid.innerHTML = SITE_CONFIG.openWhenLetters
+        .map((item, idx) => `
+          <button
+            type="button"
+            onclick="openWhenModal(${idx})"
+            class="paper-sheet rounded-2xl p-5 text-right hover:-translate-y-1 transition duration-300 flex items-center justify-between gap-3.5 group w-full sm:last:col-span-2 sm:last:w-[calc(50%-0.75rem)] sm:last:mx-auto lg:last:col-span-1 lg:last:w-full"
+          >
+            <div class="min-w-0">
+              <span class="inline-block text-[11px] font-bold text-rose-700 bg-rose-100/90 px-2.5 py-0.5 rounded-full mb-2">
+                ${item.badge}
+              </span>
+              <h3 class="font-extrabold text-inkDark text-sm sm:text-base leading-7 group-hover:text-rose-800 transition">
+                ${item.title}
+              </h3>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br ${item.sealColor} text-white flex items-center justify-center shadow-md shrink-0 group-hover:scale-110 transition">
+              <span class="text-lg">✉️</span>
+            </div>
+          </button>
+        `)
+        .join('');
+    }
+
+    function openWhenModal(index) {
+      const item = SITE_CONFIG.openWhenLetters[index];
+      if (!item) return;
+      playBellNote(587.33, 0.9, 0.05);
+
+      openModal(`
+        <div class="p-1 sm:p-2">
+          <div class="mb-4 pb-2 border-b border-amber-900/15" style="line-height:1.6">
+            <span class="text-xs font-bold text-rose-700">${item.badge}</span>
+            <h3 class="text-lg sm:text-xl font-extrabold text-inkDark mt-0.5">${item.title}</h3>
+          </div>
+          <div class="lined-paper lined-paper-body text-sm sm:text-base text-inkDark font-medium">
+            <p>${item.letter}</p>
+          </div>
+          <div class="mt-6 pt-3 border-t border-amber-900/10 text-left font-bold text-rose-800 text-sm" style="line-height:1.5">
+            همیشه کنارِ تو، ${SITE_CONFIG.hisName} ❤️
+          </div>
+        </div>
+      `);
+    }
+
+    // ==========================================
+    // ۶. کیک تولد و خاموش کردن تک‌تک شمع‌ها با آپدیت درجا (بدون بازسازی کل DOM)
+    // ==========================================
+    let candleStates = [true, true, true, true, true];
+
+    function updateLitCandlesBadge() {
+      const litCount = candleStates.filter(Boolean).length;
+      document.getElementById('litCandlesCount').textContent = `${toPersianDigits(litCount)} از ۵`;
+    }
+
+    function initCandles() {
+      const row = document.getElementById('candlesRow');
+      const colors = ['#f49cbb', '#ebd084', '#c792ea', '#ebd084', '#f49cbb'];
+
+      row.innerHTML = candleStates
+        .map((isLit, idx) => `
+          <button
+            id="candleBtn-${idx}"
+            type="button"
+            onclick="extinguishCandle(${idx})"
+            class="group relative flex flex-col items-center focus:outline-none p-2 -mx-1 select-none ${isLit ? 'cursor-pointer' : 'candle-out cursor-default'}"
+            aria-label="شمع شماره ${idx + 1}"
+          >
+            <!-- دو رشته دود پس از فوت شدن شمع -->
+            <span class="smoke-wisp-1 absolute -top-2 w-3.5 h-3.5 rounded-full bg-purple-200/65 blur-[1.5px]"></span>
+            <span class="smoke-wisp-2 absolute -top-3 w-2.5 h-2.5 rounded-full bg-slate-200/55 blur-[1px]"></span>
+
+            <!-- شعله و هاله نورانی گرم -->
+            <span class="candle-flame-wrap h-8 -mb-0.5">
+              <span class="candle-halo"></span>
+              <svg class="candle-flame w-5 h-7 relative z-10" viewBox="0 0 24 34">
+                <path d="M12 2 C12 2 21 13 21 21 C21 27 17 31 12 31 C7 31 3 27 3 21 C3 13 12 2 12 2 Z" fill="#ffb703"/>
+                <path d="M12 9 C12 9 17.5 16.5 17.5 22 C17.5 25.8 15 28.5 12 28.5 C9 28.5 6.5 25.8 6.5 22 C6.5 16.5 12 9 12 9 Z" fill="#ffd166"/>
+                <ellipse cx="12" cy="23.5" rx="2.8" ry="4" fill="#fff9db"/>
+              </svg>
+            </span>
+
+            <!-- فتیله و اخگر سرخ -->
+            <span class="relative w-0.5 h-2 bg-stone-800 rounded-t-full flex justify-center">
+              <span class="wick-ember absolute -top-0.5 w-1.5 h-1.5 rounded-full"></span>
+            </span>
+
+            <!-- بدنه شمع -->
+            <span class="candle-stick w-3.5 sm:w-4 h-12 rounded-t-md shadow-inner border border-white/40 group-hover:scale-105" style="background: repeating-linear-gradient(45deg, #fffaf0, #fffaf0 4px, ${colors[idx]} 4px, ${colors[idx]} 8px);"></span>
+          </button>
+        `)
+        .join('');
+
+      updateLitCandlesBadge();
+    }
+
+    function extinguishCandle(index, skipPuff = false) {
+      if (!candleStates[index]) return;
+      candleStates[index] = false;
+
+      // آپدیت درجای فقط همان شمع بدون اجرای مجدد انیمیشن دود روی سایر شمع‌ها
+      const btn = document.getElementById(`candleBtn-${index}`);
+      if (btn) {
+        btn.classList.add('candle-out', 'cursor-default');
+        btn.classList.remove('cursor-pointer');
+      }
+
+      if (!skipPuff) {
+        playBlowPuffSound();
+        playBellNote(783.99 - index * 50, 0.45, 0.045);
+      }
+
+      updateLitCandlesBadge();
+
+      if (candleStates.every(c => !c)) {
+        setTimeout(celebrateAllCandlesOut, 260);
+      }
+    }
+
+    function blowAllCandles() {
+      if (candleStates.every(c => !c)) return;
+      playBlowPuffSound();
+
+      let step = 0;
+      candleStates.forEach((isLit, idx) => {
+        if (isLit) {
+          setTimeout(() => {
+            extinguishCandle(idx, true);
+            playBellNote(783.99 - idx * 45, 0.4, 0.035);
+          }, step * 95);
+          step++;
+        }
+      });
+    }
+
+    function celebrateAllCandlesOut() {
+      playSparkleChime([523.25, 523.25, 587.33, 523.25, 698.46, 659.25]);
+      triggerConfettiBurst(130);
+
+      document.getElementById('blowAllBtn').classList.add('hidden');
+      document.getElementById('relightBtn').classList.remove('hidden');
+      document.getElementById('cakePromptText').textContent = 'آرزوت رفت تا آسمون... تولدت هزار بار مبارک پریا جانم! 🎉✨';
+
+      const wishCard = document.getElementById('birthdayWishReveal');
+      wishCard.classList.remove('hidden');
+      showToast('تولدت مبارک پریا جونم! 🎂✨', '🎉');
+    }
+
+    function resetCandles() {
+      candleStates = [true, true, true, true, true];
+      candleStates.forEach((_, idx) => {
+        const btn = document.getElementById(`candleBtn-${idx}`);
+        if (btn) {
+          btn.classList.remove('candle-out', 'cursor-default');
+          btn.classList.add('cursor-pointer');
+        }
+      });
+      updateLitCandlesBadge();
+      document.getElementById('blowAllBtn').classList.remove('hidden');
+      document.getElementById('relightBtn').classList.add('hidden');
+      document.getElementById('cakePromptText').textContent = SITE_CONFIG.cakeInitialPrompt;
+      document.getElementById('birthdayWishReveal')?.classList.add('hidden');
+    }
+
+    // موتور کاغذرنگی طلایی و صورتی روی Canvas
+    const confettiCanvas = document.getElementById('confettiCanvas');
+    const confettiCtx = confettiCanvas.getContext('2d');
+    let confettiPieces = [];
+    let confettiAnimating = false;
+
+    function resizeConfettiCanvas() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+
+    function triggerConfettiBurst(amount = 100) {
+      resizeConfettiCanvas();
+      const palette = ['#ebd084', '#f49cbb', '#fffaf0', '#e06388', '#c792ea'];
+      for (let i = 0; i < amount; i++) {
+        confettiPieces.push({
+          x: confettiCanvas.width * 0.5 + (Math.random() - 0.5) * 180,
+          y: confettiCanvas.height * 0.45,
+          vx: (Math.random() - 0.5) * 13,
+          vy: -(Math.random() * 12 + 4),
+          size: Math.random() * 7 + 5,
+          color: palette[Math.floor(Math.random() * palette.length)],
+          rot: Math.random() * Math.PI * 2,
+          vRot: (Math.random() - 0.5) * 0.22,
+          alpha: 1
+        });
+      }
+      if (!confettiAnimating) {
+        confettiAnimating = true;
+        animateConfetti();
+      }
+    }
+
+    function animateConfetti() {
+      confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      confettiPieces.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.26;
+        p.vx *= 0.99;
+        p.rot += p.vRot;
+        if (p.y > confettiCanvas.height * 0.8) p.alpha -= 0.025;
+
+        confettiCtx.save();
+        confettiCtx.globalAlpha = Math.max(0, p.alpha);
+        confettiCtx.translate(p.x, p.y);
+        confettiCtx.rotate(p.rot);
+        confettiCtx.fillStyle = p.color;
+        confettiCtx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.65);
+        confettiCtx.restore();
+      });
+
+      confettiPieces = confettiPieces.filter(p => p.alpha > 0 && p.y < confettiCanvas.height + 40);
+      if (confettiPieces.length > 0) {
+        requestAnimationFrame(animateConfetti);
+      } else {
+        confettiAnimating = false;
+        confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+      }
+    }
+
+    // ==========================================
+    // ۷. پاکت آخر رمزدار و باز شدن نامه اصلی
+    // ==========================================
+    function togglePasswordHint() {
+      document.getElementById('passwordHintBox').classList.toggle('hidden');
+    }
+
+    function unlockFinalEnvelope() {
+      const inputEl = document.getElementById('vaultPasswordInput');
+      const errorMsg = document.getElementById('vaultErrorMsg');
+      const lockCard = document.getElementById('lockedVaultCard');
+
+      const rawTrimmed = String(inputEl.value).trim();
+      const normalizedDigits = normalizeDigitsToEnglish(rawTrimmed);
+      const [mainPass, altNumericPass] = SITE_CONFIG.vaultPasswords;
+
+      // پذیرش رمز اصلی حروفی یا رمز عددی جایگزین با حفظ صفر ابتدایی
+      const isValidPassword =
+        rawTrimmed.toLowerCase() === mainPass ||
+        normalizedDigits === altNumericPass;
+
+      if (isValidPassword) {
+        errorMsg.classList.add('hidden');
+        document.getElementById('vaultLockIcon').textContent = '🔓';
+        playSparkleChime([523.25, 659.25, 783.99, 1046.5, 1318.5]);
+        triggerConfettiBurst(85);
+        showToast('قفل پاکت اختصاصیت باز شد قشنگم! 💌', '🔓');
+
+        setTimeout(() => {
+          lockCard.classList.add('hidden');
+          const unlocked = document.getElementById('unlockedVaultContent');
+          unlocked.classList.remove('hidden');
+          unlocked.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 420);
+      } else {
+        errorMsg.classList.remove('hidden');
+        lockCard.classList.remove('animate-shake');
+        void lockCard.offsetWidth;
+        lockCard.classList.add('animate-shake');
+        playBellNote(220, 0.35, 0.05);
+      }
+    }
+
+    // ==========================================
+    // ۷.۵ بخش مستقل انتخاب عروسک هدیه
+    // ==========================================
+    let selectedPlushieId = null;
+
+    function renderPlushieCards() {
+      const grid = document.getElementById('plushieGrid');
+      if (!grid) return;
+
+      grid.innerHTML = SITE_CONFIG.plushieOptions
+        .map(opt => `
+          <button
+            id="plushieCard-${opt.id}"
+            type="button"
+            onclick="selectPlushieOption('${opt.id}')"
+            aria-pressed="false"
+            class="plushie-card rounded-2xl p-2.5 sm:p-3 text-center relative flex flex-col items-stretch focus:outline-none cursor-pointer select-none"
+          >
+            <!-- نشان تیک صورتی حالت انتخاب‌شده -->
+            <span class="plushie-check-badge absolute top-4 left-4 z-10 w-6 h-6 rounded-full bg-[#ec6b9e] text-white text-xs font-extrabold flex items-center justify-center shadow-md pointer-events-none">
+              ✓
+            </span>
+
+            <!-- تصویر هماهنگ عروسکی با نسبت ۴:۳ ثابت -->
+            <div class="aspect-[4/3] w-full rounded-xl overflow-hidden border border-[#f7e4ec] mb-2.5 bg-[#fff8fb]">
+              ${opt.svg}
+            </div>
+
+            <!-- نام و توضیح کوتاه مدل -->
+            <div class="px-1 pb-1 flex-1 flex flex-col justify-center">
+              <h3 class="font-extrabold text-[#2d2235] text-sm sm:text-[15px] leading-6">${opt.title}</h3>
+              <p class="text-[11px] sm:text-xs text-[#2d2235]/65 font-medium mt-0.5 leading-5">${opt.desc}</p>
+            </div>
+          </button>
+        `)
+        .join('');
+    }
+
+    function clearPlushieValidation() {
+      const wrap = document.getElementById('plushieValidationWrap');
+      if (wrap) wrap.classList.add('hidden');
+    }
+
+    function selectPlushieOption(optionId) {
+      selectedPlushieId = optionId;
+      clearPlushieValidation();
+
+      SITE_CONFIG.plushieOptions.forEach(opt => {
+        const card = document.getElementById(`plushieCard-${opt.id}`);
+        if (!card) return;
+        const isCurrent = opt.id === optionId;
+        card.classList.toggle('plushie-selected', isCurrent);
+        card.setAttribute('aria-pressed', isCurrent ? 'true' : 'false');
+      });
+
+      const customBox = document.getElementById('customPlushieBox');
+      if (customBox) {
+        if (optionId === 'custom') {
+          customBox.classList.remove('hidden');
+        } else {
+          // فقط مخفی‌سازی کادر بدون پاک کردن متن نوشته‌شده قبلی
+          customBox.classList.add('hidden');
+        }
+      }
+
+      playBellNote(659.25, 0.55, 0.04);
+    }
+
+    function showPlushieValidationMessage(message) {
+      const wrap = document.getElementById('plushieValidationWrap');
+      const msgEl = document.getElementById('plushieValidationMsg');
+      if (wrap && msgEl) {
+        msgEl.textContent = message;
+        wrap.classList.remove('hidden');
+      }
+      playBellNote(349.23, 0.4, 0.04);
+    }
+
+    function confirmPlushieSelection() {
+      if (!selectedPlushieId) {
+        showPlushieValidationMessage('اول یکی از مدل‌های بالا رو انتخاب کن قشنگم 🧸💗');
+        return;
+      }
+
+      if (selectedPlushieId === 'custom') {
+        const customInput = document.getElementById('customPlushieInput');
+        if (!customInput || customInput.value.trim() === '') {
+          showPlushieValidationMessage('اسم عروسکی که دوست داری رو توی کادر بالا بنویس قشنگم 💗');
+          if (customInput) customInput.focus();
+          return;
+        }
+      }
+
+      clearPlushieValidation();
+      const stage = document.getElementById('plushieSelectionStage');
+      const confirmedCard = document.getElementById('plushieConfirmedCard');
+      if (stage && confirmedCard) {
+        stage.classList.add('hidden');
+        confirmedCard.classList.remove('hidden');
+      }
+
+      playSparkleChime([523.25, 659.25, 783.99, 1046.5]);
+    }
+
+    // ==========================================
+    // ۸. خاطره‌های آینده (لیست آرزوها با ذخیره‌سازی محلی امن)
+    // ==========================================
+    let likedFutureWishes = {};
+    try {
+      const saved = localStorage.getItem('paria_sky_wishes');
+      if (saved) likedFutureWishes = JSON.parse(saved);
+    } catch (e) {}
+
+    function renderFutureWishes() {
+      const container = document.getElementById('futureWishesList');
+      container.innerHTML = SITE_CONFIG.futureWishes
+        .map(w => {
+          const active = Boolean(likedFutureWishes[w.id]);
+          return `
+            <div
+              onclick="toggleFutureWish('${w.id}')"
+              role="button"
+              tabindex="0"
+              onkeydown="if(event.key==='Enter') toggleFutureWish('${w.id}')"
+              class="glass-card rounded-2xl p-4 sm:p-5 flex items-center justify-between gap-3 cursor-pointer hover:border-starGold/50 transition ${active ? 'border-roseGlow/60 bg-roseGlow/10' : ''}"
+            >
+              <div class="flex items-center gap-3.5 min-w-0">
+                <span class="text-2xl sm:text-3xl shrink-0">${w.icon}</span>
+                <span class="text-sm sm:text-base font-medium text-white leading-relaxed">${w.title}</span>
+              </div>
+              <span class="shrink-0 text-xs font-bold px-3 py-1.5 rounded-full transition ${
+                active
+                  ? 'bg-roseGlow text-inkDark shadow-md'
+                  : 'bg-white/10 text-purple-200 hover:bg-white/20'
+              }">
+                ${active ? 'توی قلبم ثبت شد 💖' : 'به‌زودی می‌سازیمش 🤍'}
+              </span>
+            </div>
+          `;
+        })
+        .join('');
+    }
+
+    function toggleFutureWish(id) {
+      likedFutureWishes[id] = !likedFutureWishes[id];
+      try {
+        localStorage.setItem('paria_sky_wishes', JSON.stringify(likedFutureWishes));
+      } catch (e) {}
+      if (likedFutureWishes[id]) {
+        playBellNote(880, 0.6, 0.045);
+      }
+      renderFutureWishes();
+    }
+
+    // ==========================================
+    // مدیریت مودال عمومی با قفل اسکرول پس‌زمینه و ریست اسکرول داخلی
+    // ==========================================
+    function openModal(htmlContent) {
+      const modal = document.getElementById('universalModal');
+      const contentBox = document.getElementById('modalContentBox');
+      document.getElementById('modalBody').innerHTML = htmlContent;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      if (contentBox) {
+        contentBox.scrollTop = 0;
+      }
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('universalModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // ==========================================
+    // راه‌اندازی اولیه هنگام بارگذاری صفحه
+    // ==========================================
+    window.onload = function () {
+      resizeStarCanvas();
+      resizeConfettiCanvas();
+      animateStarfield();
+
+      buildVoiceWaveform();
+      initVoicePlayer();
+      updateRelationshipCounter();
+      setInterval(updateRelationshipCounter, 1000);
+
+      renderPolaroids();
+      renderTraits();
+      renderOpenWhenEnvelopes();
+      initCandles();
+      renderPlushieCards();
+      renderFutureWishes();
+    };
+
+    window.addEventListener('resize', () => {
+      resizeStarCanvas();
+      resizeConfettiCanvas();
+    });
+  </script>
+</body>
+</html>
